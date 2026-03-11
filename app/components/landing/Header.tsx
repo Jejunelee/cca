@@ -1,0 +1,146 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+
+// Navigation links configuration for easy maintenance
+const NAVIGATION_LINKS = [
+  { href: "#Process", label: "About Us" },
+  { href: "#Clients", label: "Our Experts" },
+  { href: "#Team", label: "Bootcamps" },
+  { href: "/pricing", label: "Training Programs" },
+] as const;
+
+export default function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
+  // Function to handle smooth scrolling
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    const element = document.getElementById(targetId);
+    if (element) {
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      
+      // Close mobile menu if open
+      setIsMobileMenuOpen(false);
+    }
+  };
+
+  return (
+    <header className="w-full flex justify-center fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4">
+      <div className="w-[80%] max-w-7xl bg-[#0a0a0a] rounded-3xl px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-lg">
+        
+        {/* Logo */}
+        <Link 
+          href="/" 
+          className="flex items-center focus:outline-none focus:ring-2 focus:ring-white/50"
+          aria-label="CCA Connect"
+        >
+          <div className="flex items-center gap-2">
+            <Image 
+              src="/logo.png"
+              alt="CCA"
+              width={614}
+              height={361}
+              className="h-8 w-auto object-contain"
+              priority
+            />
+          </div>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-2 lg:gap-4" aria-label="Main navigation">
+          <ul className="flex items-center gap-1 lg:gap-2">
+            {NAVIGATION_LINKS.map(({ href, label }) => (
+              <li key={href}>
+                {href.startsWith('#') ? (
+                  <a
+                    href={href}
+                    onClick={(e) => handleScroll(e, href.substring(1))}
+                    className="text-white text-sm lg:text-base hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg px-2 py-1 cursor-pointer"
+                  >
+                    {label}
+                  </a>
+                ) : (
+                  <Link
+                    href={href}
+                    className="text-white text-sm lg:text-base hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg px-2 py-1"
+                  >
+                    {label}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
+
+          {/* Dashboard Button */}
+          <Link
+            href="/login"
+            className="bg-[#A7C8E5] text-black px-10 py-2 rounded-2xl text-sm lg:text-base font-medium hover:bg-[#b8d4ef] transition-colors focus:outline-none focus:ring-2 focus:ring-[#A7C8E5] focus:ring-offset-2 focus:ring-offset-black"
+          >
+            Join Us
+          </Link>
+        </nav>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={toggleMobileMenu}
+          className="md:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
+          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMobileMenuOpen}
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {/* Mobile Navigation Menu */}
+        {isMobileMenuOpen && (
+          <div className="absolute top-16 left-4 right-4 bg-black rounded-2xl shadow-xl border border-white/10 p-4 md:hidden">
+            <nav className="flex flex-col space-y-4" aria-label="Mobile navigation">
+              {NAVIGATION_LINKS.map(({ href, label }) => (
+                href.startsWith('#') ? (
+                  <a
+                    key={href}
+                    href={href}
+                    onClick={(e) => handleScroll(e, href.substring(1))}
+                    className="text-white px-4 py-2 hover:bg-white/10 rounded-lg transition-colors"
+                  >
+                    {label}
+                  </a>
+                ) : (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="text-white px-4 py-2 hover:bg-white/10 rounded-lg transition-colors"
+                    onClick={toggleMobileMenu}
+                  >
+                    {label}
+                  </Link>
+                )
+              ))}
+              
+              {/* Mobile Dashboard Button */}
+              <Link
+                href="/login"
+                className="bg-[#A7C8E5] text-black px-4 py-2 rounded-lg font-medium text-center hover:bg-[#b8d4ef] transition-colors mt-2"
+                onClick={toggleMobileMenu}
+              >
+                Join Us
+              </Link>
+            </nav>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+}
