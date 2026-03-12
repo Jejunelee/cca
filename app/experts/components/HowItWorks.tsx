@@ -36,7 +36,7 @@ export default function HowItWorks() {
     <section className="w-full bg-white py-12 sm:py-14 md:py-16 lg:py-18 xl:py-20 px-3 sm:px-4 md:px-5 lg:px-6">
       <div className="max-w-7xl mx-auto text-center w-full">
         {/* Title with refined typography - responsive sizing */}
-        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-light text-black leading-tight">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-poppins font-thin text-black leading-tight">
           How does it{" "}
           <span className={`${playfair.className} italic text-gray-800 sm:inline mt-1 sm:mt-0`}>
             work?
@@ -96,14 +96,6 @@ export default function HowItWorks() {
           ))}
         </div>
 
-        {/* Optional bottom accent */}
-        <div className="mt-8 sm:mt-10 md:mt-12 lg:mt-16">
-          <div className="inline-block px-4 sm:px-6 py-2 sm:py-3 bg-[#AFCFE4]/10 rounded-full">
-            <p className="text-xs sm:text-sm text-gray-600">
-              Ready to start? <a href="/contact" className="font-semibold text-[#225475] hover:underline">Get in touch →</a>
-            </p>
-          </div>
-        </div>
       </div>
 
       {/* Mobile-specific touch improvements */}
