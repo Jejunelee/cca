@@ -9,21 +9,22 @@ export default function Stats() {
     stat3: 0
   })
   
-  const [hasAnimated, setHasAnimated] = useState(false)
-  const sectionRef = useRef(null)
+  const hasAnimatedRef = useRef<boolean>(false) // Type with initial value false
+  const sectionRef = useRef<HTMLElement>(null) // Type with initial value null
+  const animationRef = useRef<NodeJS.Timeout | undefined>(undefined) // Type with initial value undefined
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries
-        // Check if more than 75% of the section is visible
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.75 && !hasAnimated) {
-          setHasAnimated(true)
+        // Check if element is visible and animation hasn't run yet
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.3 && !hasAnimatedRef.current) {
+          hasAnimatedRef.current = true // Set ref to true immediately
           startCounting()
         }
       },
       {
-        threshold: [0, 0.25, 0.5, 0.75, 1], // Track multiple thresholds
+        threshold: [0, 0.25, 0.3, 0.5, 0.75, 1],
         rootMargin: '0px'
       }
     )
@@ -36,23 +37,26 @@ export default function Stats() {
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current)
       }
+      if (animationRef.current) {
+        clearInterval(animationRef.current)
+      }
     }
-  }, [hasAnimated])
+  }, []) // Empty dependency array - only runs once
 
   const startCounting = () => {
-    const duration = 2000 // 2 seconds
+    const duration = 2000
     const steps = 60
     const interval = duration / steps
 
     const targets = {
       stat1: 60,
       stat2: 70,
-      stat3: 33.33 // for 1 in 3
+      stat3: 33.33
     }
 
     let currentStep = 0
 
-    const timer = setInterval(() => {
+    animationRef.current = setInterval(() => {
       currentStep++
       
       setCounts({
@@ -62,18 +66,16 @@ export default function Stats() {
       })
 
       if (currentStep >= steps) {
-        clearInterval(timer)
+        if (animationRef.current) {
+          clearInterval(animationRef.current)
+        }
       }
     }, interval)
-
-    return () => clearInterval(timer)
   }
 
-  // Helper function to format stat3 display
   const formatStat3 = (value: number): string => {
     if (value === 0) return '0%'
     if (value < 33.33) {
-      // Calculate how many steps we've taken toward 33.33
       const percentage = (value / 33.33) * 100
       
       if (percentage < 25) return '1 in 0'
@@ -87,74 +89,78 @@ export default function Stats() {
   return (
     <section 
       ref={sectionRef}
-      className="relative w-full min-h-[300px] flex items-center justify-center overflow-hidden"
+      className="relative w-full min-h-[120px] sm:min-h-[200px] md:min-h-[250px] lg:min-h-[300px] flex items-center justify-center overflow-hidden"
     >
       
-      {/* Top scrim - continues the fade from Hero */}
-      <div className="absolute top-0 left-0 right-0 h-48 pointer-events-none z-10"></div>
+      {/* Top scrim - responsive height */}
+      <div className="absolute top-0 left-0 right-0 h-12 sm:h-24 md:h-32 lg:h-48 pointer-events-none z-10 bg-gradient-to-b from-black/20 to-transparent" />
       
-      {/* Background with subtle parallax */}
+      {/* Background with subtle parallax - optimized for mobile */}
       <div className="absolute inset-0 bg-black/90 z-0" />
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50 scale-105 animate-subtle-zoom z-0"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 sm:opacity-50 scale-105 animate-subtle-zoom z-0"
         style={{ backgroundImage: "url('/landing/stats.png')" }}
       />
       
-      {/* Gradient overlay for depth */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black/80 z-0" />
+      {/* Gradient overlay for depth - enhanced for mobile */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90 sm:from-transparent sm:via-black/50 sm:to-black/80 z-0" />
 
       {/* Content - HIGHEST Z-INDEX */}
-      <div className="relative z-20 max-w-7xl mx-auto px-6 py-24 w-full">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-20 lg:gap-24 xl:gap-32 text-center text-white font-poppins">
-
-          {/* Stat 1 */}
-          <div className="group space-y-4 md:space-y-6 animate-fade-up [animation-delay:200ms]">
+      <div className="relative z-20 w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-16 md:py-20 lg:py-24">
+        {/* Flex row for horizontal layout on all devices */}
+        <div className="flex flex-row flex-wrap items-stretch justify-center gap-2 sm:gap-4 md:gap-8 lg:gap-12 xl:gap-16 text-center text-white font-poppins">
+          
+          {/* Stat 1 - UPDATED DESCRIPTION */}
+          <div className="group flex-1 min-w-[110px] max-w-[150px] sm:max-w-none space-y-1 sm:space-y-3 md:space-y-4 lg:space-y-6 animate-fade-up [animation-delay:200ms]">
             <div className="relative">
-              <h2 className="text-6xl md:text-7xl lg:text-8xl font-light bg-gradient-to-b from-[#AFCFE4] to-[#8fb3c9] bg-clip-text text-transparent">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-light bg-gradient-to-b from-[#AFCFE4] to-[#8fb3c9] bg-clip-text text-transparent">
                 {counts.stat1}%
               </h2>
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-[#AFCFE4]/30 group-hover:w-20 transition-all duration-500" />
+              <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-6 sm:w-8 md:w-10 lg:w-12 h-0.5 bg-[#AFCFE4]/30 group-hover:w-8 sm:group-hover:w-10 md:group-hover:w-12 lg:group-hover:w-16 transition-all duration-500" />
             </div>
-            <p className="text-base md:text-lg lg:text-lg text-white/80 leading-relaxed tracking-wide max-w-sm mx-auto">
-              of guest complaints are <span className="font-semibold text-white">people-related</span>, not product-related.
+            <p className="text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg text-white/80 leading-tight sm:leading-relaxed tracking-wide">
+              of guest complaints are <span className="font-semibold text-white">people-related, not product-related</span>
             </p>
           </div>
 
-          {/* Stat 2 */}
-          <div className="group space-y-4 md:space-y-6 animate-fade-up [animation-delay:400ms]">
+          {/* Stat 2 - UPDATED DESCRIPTION */}
+          <div className="group flex-1 min-w-[110px] max-w-[150px] sm:max-w-none space-y-1 sm:space-y-3 md:space-y-4 lg:space-y-6 animate-fade-up [animation-delay:400ms]">
             <div className="relative">
-              <h2 className="text-6xl md:text-7xl lg:text-8xl font-light bg-gradient-to-b from-[#AFCFE4] to-[#8fb3c9] bg-clip-text text-transparent">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-light bg-gradient-to-b from-[#AFCFE4] to-[#8fb3c9] bg-clip-text text-transparent">
                 {counts.stat2}%
               </h2>
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-[#AFCFE4]/30 group-hover:w-20 transition-all duration-500" />
+              <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-6 sm:w-8 md:w-10 lg:w-12 h-0.5 bg-[#AFCFE4]/30 group-hover:w-8 sm:group-hover:w-10 md:group-hover:w-12 lg:group-hover:w-16 transition-all duration-500" />
             </div>
-            <p className="text-base md:text-lg lg:text-lg text-white/80 leading-relaxed tracking-wide max-w-sm mx-auto">
-              of employees in hospitality report <span className="font-semibold text-white">emotional exhaustion</span> at least once a week.
+            <p className="text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg text-white/80 leading-tight sm:leading-relaxed tracking-wide">
+              of employees in hospitality report <span className="font-semibold text-white">emotional exhaustion at least once a week</span>
             </p>
           </div>
 
-          {/* Stat 3 */}
-          <div className="group space-y-4 md:space-y-6 animate-fade-up [animation-delay:600ms]">
+          {/* Stat 3 - UPDATED DESCRIPTION */}
+          <div className="group flex-1 min-w-[110px] max-w-[150px] sm:max-w-none space-y-1 sm:space-y-3 md:space-y-4 lg:space-y-6 animate-fade-up [animation-delay:600ms]">
             <div className="relative">
-              <h2 className="text-6xl md:text-7xl lg:text-8xl font-light bg-gradient-to-b from-[#AFCFE4] to-[#8fb3c9] bg-clip-text text-transparent whitespace-nowrap">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-light bg-gradient-to-b from-[#AFCFE4] to-[#8fb3c9] bg-clip-text text-transparent">
                 {counts.stat3 === 0 ? '0%' : formatStat3(counts.stat3)}
               </h2>
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-[#AFCFE4]/30 group-hover:w-20 transition-all duration-500" />
+              <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-6 sm:w-8 md:w-10 lg:w-12 h-0.5 bg-[#AFCFE4]/30 group-hover:w-8 sm:group-hover:w-10 md:group-hover:w-12 lg:group-hover:w-16 transition-all duration-500" />
             </div>
-            <p className="text-base md:text-lg lg:text-lg text-white/80 leading-relaxed tracking-wide max-w-sm mx-auto">
-              frontliners feel <span className="font-semibold text-white">recognized for great service</span>.
+            <p className="text-[10px] sm:text-xs md:text-sm lg:text-base xl:text-lg text-white/80 leading-tight sm:leading-relaxed tracking-wide">
+              of frontliners feel <span className="font-semibold text-white">recognized for great service</span>
             </p>
           </div>
 
         </div>
       </div>
 
-      {/* Add animation styles */}
+      {/* Bottom scrim for smoother transition - added for mobile */}
+      <div className="absolute bottom-0 left-0 right-0 h-12 sm:hidden pointer-events-none z-10 bg-gradient-to-t from-black/20 to-transparent" />
+
+      {/* Animation styles with performance optimizations */}
       <style jsx>{`
         @keyframes fadeUp {
           from {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(20px);
           }
           to {
             opacity: 1;
@@ -167,20 +173,27 @@ export default function Stats() {
             transform: scale(1);
           }
           50% {
-            transform: scale(1.08);
+            transform: scale(1.05);
           }
           100% {
-            transform: scale(1.05);
+            transform: scale(1.02);
           }
         }
 
         .animate-fade-up {
-          animation: fadeUp 0.8s ease-out forwards;
+          animation: fadeUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
           opacity: 0;
         }
 
         .animate-subtle-zoom {
           animation: subtleZoom 20s ease-in-out infinite;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+          .animate-subtle-zoom {
+            animation: subtleZoom 30s ease-in-out infinite;
+          }
         }
       `}</style>
 

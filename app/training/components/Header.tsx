@@ -15,17 +15,16 @@ export default function Header() {
         
         {/* Title - Responsive text sizing */}
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-light text-black font-poppins leading-tight sm:leading-normal">
-          We're partners in{" "}
+          Develop the People Who{" "}
           <span className="font-playfair italic font-semibold sm:inline">
-            growth
+            power{" "}
           </span>
+          your business
         </h1>
 
         {/* Description - Better mobile readability */}
         <p className="max-w-lg mx-auto mt-4 sm:mt-6 text-base sm:text-lg text-gray-700 leading-relaxed px-2 sm:px-0">
-          To bridge between ideas and industry: connecting hospitality
-          businesses with expert consultants, bootcamps, and training
-          programs to elevate standards.
+          Targeted training solutions designed for measurable impact.
         </p>
 
       </div>

@@ -5,13 +5,20 @@ import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
+// Define a type for navigation links
+type NavigationLink = {
+  href: string;
+  label: string;
+  external?: boolean;
+};
+
 // Navigation links configuration for easy maintenance
-const NAVIGATION_LINKS = [
+const NAVIGATION_LINKS: NavigationLink[] = [
   { href: "/about", label: "About Us" },
   { href: "/experts", label: "Our Experts" },
-  { href: "#Team", label: "Bootcamps" },
-  { href: "/pricing", label: "Training Programs" },
-] as const;
+  { href: "https://events.ccaconnect.co", label: "Bootcamps", external: true },
+  { href: "/training", label: "Training Programs" },
+];
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -62,22 +69,31 @@ export default function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-2 lg:gap-4" aria-label="Main navigation">
           <ul className="flex items-center gap-1 lg:gap-2">
-            {NAVIGATION_LINKS.map(({ href, label }) => (
-              <li key={href}>
-                {href.startsWith('#') ? (
+            {NAVIGATION_LINKS.map((link) => (
+              <li key={link.href}>
+                {link.external ? (
                   <a
-                    href={href}
-                    onClick={(e) => handleScroll(e, href.substring(1))}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-white text-sm lg:text-base hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg px-2 py-1 cursor-pointer"
                   >
-                    {label}
+                    {link.label}
+                  </a>
+                ) : link.href.startsWith('#') ? (
+                  <a
+                    href={link.href}
+                    onClick={(e) => handleScroll(e, link.href.substring(1))}
+                    className="text-white text-sm lg:text-base hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg px-2 py-1 cursor-pointer"
+                  >
+                    {link.label}
                   </a>
                 ) : (
                   <Link
-                    href={href}
+                    href={link.href}
                     className="text-white text-sm lg:text-base hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg px-2 py-1"
                   >
-                    {label}
+                    {link.label}
                   </Link>
                 )}
               </li>
@@ -107,24 +123,38 @@ export default function Header() {
         {isMobileMenuOpen && (
           <div className="absolute top-16 left-4 right-4 bg-black rounded-2xl shadow-xl border border-white/10 p-4 md:hidden">
             <nav className="flex flex-col space-y-4" aria-label="Mobile navigation">
-              {NAVIGATION_LINKS.map(({ href, label }) => (
-                href.startsWith('#') ? (
+              {NAVIGATION_LINKS.map((link) => (
+                link.external ? (
                   <a
-                    key={href}
-                    href={href}
-                    onClick={(e) => handleScroll(e, href.substring(1))}
-                    className="text-white px-4 py-2 hover:bg-white/10 rounded-lg transition-colors"
-                  >
-                    {label}
-                  </a>
-                ) : (
-                  <Link
-                    key={href}
-                    href={href}
+                    key={link.href}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-white px-4 py-2 hover:bg-white/10 rounded-lg transition-colors"
                     onClick={toggleMobileMenu}
                   >
-                    {label}
+                    {link.label}
+                  </a>
+                ) : link.href.startsWith('#') ? (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => {
+                      handleScroll(e, link.href.substring(1));
+                      toggleMobileMenu();
+                    }}
+                    className="text-white px-4 py-2 hover:bg-white/10 rounded-lg transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="text-white px-4 py-2 hover:bg-white/10 rounded-lg transition-colors"
+                    onClick={toggleMobileMenu}
+                  >
+                    {link.label}
                   </Link>
                 )
               ))}

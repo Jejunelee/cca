@@ -1,89 +1,89 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { Playfair_Display } from "next/font/google";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  style: ["italic"],
+  weight: ["400"],
+});
+
+const events = [
+  {
+    title: "HOSPITALITY SUMMIT",
+    date: "June 2026",
+    image: "/landing/events/1.png",
+  },
+  {
+    title: "TIKIM FOOD MARKET",
+    date: "June 2026",
+    image: "/landing/events/2.png",
+  },
+];
 
 export default function Events() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
-  const events = [
-    {
-      title: "HOSPITALITY SUMMIT",
-      date: "June 2026",
-      description: "Connect with industry leaders and explore the future of hospitality",
-      image: "/landing/events/1.png",
-    },
-    {
-      title: "TIKIM FOOD MARKET",
-      date: "June 2026", 
-      description: "Experience the finest local cuisine and artisanal flavors",
-      image: "/landing/events/2.png",
-    },
-  ];
-
   return (
-    <section className="w-full bg-[#f4f4f4] py-16 md:py-24">
-      <div className="w-[87%] max-w-8xl mx-auto">
-        
-        {/* Section Header */}
-        <div className="mb-12 md:mb-16">
-          <span className="text-sm uppercase tracking-[0.3em] text-black/50 font-medium">
-            Upcoming Events
-          </span>
-          <h2 className="text-4xl md:text-7xl text-black font-serif mt-3 leading-tight">
-            Don't miss the<br />next one...
+    <section className="w-full bg-[#f5f5f5] py-12 sm:py-16 md:py-20 lg:py-24 xl:py-28 px-3 sm:px-4 md:px-5 lg:px-6">
+      <div className="max-w-7xl mx-auto w-full">
+        {/* Title with subtle underline accent - responsive sizing */}
+        <div className="mb-8 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 text-center sm:text-left">
+          <h2 className={`${playfair.className} text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-black leading-tight`}>
+            Don't miss the next one...
           </h2>
+          <div className="w-16 sm:w-20 md:w-24 h-[2px] bg-gray-400/50 mt-3 sm:mt-4 mx-auto sm:mx-0"></div>
         </div>
 
-        {/* Event Cards */}
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
-          {events.map((event, index) => (
-            <div
-              key={index}
-              className="group bg-white overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-black/10"
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+        {/* Events grid - responsive gaps */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 md:gap-7 lg:gap-8">
+          {events.map((event, i) => (
+            <div 
+              key={i} 
+              className="group bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:hover:shadow-xl rounded-lg overflow-hidden"
             >
-              {/* Image Container with Overlay */}
-              <div className="relative w-full h-[450px] lg:h-[500px] overflow-hidden">
-                <div className="absolute inset-0 bg-black/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              {/* Image with subtle border - responsive height */}
+              <div className="relative w-full h-[200px] xs:h-[220px] sm:h-[250px] md:h-[280px] lg:h-[320px] xl:h-[340px] overflow-hidden">
                 <Image
                   src={event.image}
                   alt={event.title}
                   fill
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105 md:group-hover:scale-110"
+                  sizes="(max-width: 480px) 100vw, (max-width: 640px) 100vw, (max-width: 768px) 90vw, (max-width: 1024px) 45vw, 50vw"
+                  priority={i === 0}
+                  loading={i === 0 ? "eager" : "lazy"}
                 />
                 
-                {/* Date Badge */}
-                <div className="absolute top-6 left-6 z-20 bg-white/90 backdrop-blur-sm px-5 py-2.5 rounded-full shadow-lg">
-                  <span className="text-sm font-medium text-black/80">{event.date}</span>
-                </div>
+                {/* Optional overlay on hover - hidden on mobile */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 md:group-hover:opacity-100 transition-opacity duration-300" />
               </div>
 
-              {/* Info Bar - Elevated Design */}
-              <div className="relative bg-white px-8 py-7 md:px-10 md:py-8">
-                {/* Decorative Line */}
-                <div className="absolute top-0 left-8 right-8 h-[2px] bg-gradient-to-r from-transparent via-black/10 to-transparent" />
-                
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                  <div>
-                    <h3 className="text-2xl md:text-3xl lg:text-4xl font-serif tracking-wide leading-tight">
+              {/* Info Bar with refined styling - responsive padding */}
+              <div className="bg-[#c9d6db] px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 py-4 sm:py-5 md:py-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+                  <div className="flex-1">
+                    <h3 className={`${playfair.className} text-xl sm:text-2xl md:text-2xl lg:text-3xl font-medium text-black mb-0.5 sm:mb-1 leading-tight`}>
                       {event.title}
                     </h3>
-                    <p className="text-black/60 text-base mt-2 max-w-md">
-                      {event.description}
+                    <p className="text-base sm:text-lg md:text-lg lg:text-xl italic text-gray-700">
+                      {event.date}
                     </p>
                   </div>
 
                   <a
                     href="#"
-                    className="inline-flex items-center gap-3 text-lg font-medium border-b-2 border-black/20 pb-1 hover:border-black transition-all duration-300 group/link"
+                    className="inline-flex items-center text-black hover:text-gray-700 transition-colors duration-300 group/link self-start sm:self-center"
                   >
-                    <span>Learn More</span>
-                    <span className="text-xl transform transition-transform duration-300 group-hover/link:translate-x-2">
-                      →
+                    <span className="text-sm sm:text-base md:text-base lg:text-lg border-b border-transparent group-hover/link:border-black transition-all duration-300">
+                      Learn More
                     </span>
+                    <svg 
+                      className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 ml-1.5 sm:ml-2 transition-transform duration-300 group-hover/link:translate-x-1" 
+                      fill="none" 
+                      viewBox="0 0 24 24" 
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
                   </a>
                 </div>
               </div>
@@ -91,21 +91,33 @@ export default function Events() {
           ))}
         </div>
 
-        {/* View All Link */}
-        <div className="flex justify-center mt-16 md:mt-20">
+        {/* Subtle view all link - responsive spacing */}
+        <div className="text-center mt-8 sm:mt-10 md:mt-12">
           <a
-            href="#"
-            className="inline-flex items-center gap-3 text-black/70 hover:text-black text-lg tracking-wide transition-all duration-300 group"
+            href="/events"
+            className="inline-flex items-center text-gray-600 hover:text-black transition-colors duration-300 group"
           >
-            <span className="w-12 h-px bg-black/30 group-hover:w-20 transition-all duration-300" />
-            <span>View All Events</span>
-            <span className="text-xl transform transition-transform duration-300 group-hover:translate-x-2">
+            <span className="text-sm sm:text-base md:text-lg border-b border-transparent group-hover:border-black transition-all duration-300">
+              View all events
+            </span>
+            <span className="ml-2 text-sm sm:text-base md:text-lg group-hover:translate-x-1 transition-transform duration-300">
               →
             </span>
           </a>
         </div>
-
       </div>
+
+      {/* Mobile-specific touch improvements */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .group:active {
+            transform: translateY(-2px);
+          }
+          .group:active .group-hover\\:scale-105 {
+            transform: scale(1.03);
+          }
+        }
+      `}</style>
     </section>
   );
 }

@@ -17,7 +17,7 @@ interface AnnouncementProps {
 const Announcement: React.FC<AnnouncementProps> = ({ 
   message = "🎟️ Summit Tickets are on Sale! Get the early bird discount now.",
   linkText = "Get Tickets",
-  linkUrl = "/tickets",
+  linkUrl = "https://www.events.ccaconnect.co",
   onClose,
   variant = 'promo',
   dismissible = true,
@@ -76,7 +76,7 @@ const Announcement: React.FC<AnnouncementProps> = ({
   return (
     <div 
       className={`
-        relative w-full py-1.5 px-4
+        relative w-full py-2 sm:py-1.5 px-3 sm:px-4
         ${currentVariant.bg}
         ${currentVariant.text}
         border-b ${currentVariant.border}
@@ -88,66 +88,80 @@ const Announcement: React.FC<AnnouncementProps> = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="max-w-8xl mx-auto">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex-1 flex items-center justify-center">
-            <div className="flex items-center gap-2 text-sm md:text-lg">
+        <div className="flex flex-col xs:flex-row items-center justify-between gap-2 sm:gap-4">
+          
+          {/* Main content container - centered */}
+          <div className="w-full xs:flex-1 flex items-center justify-center">
+            <div className="flex flex-col xs:flex-row items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base lg:text-lg text-center xs:text-left">
+              
+              {/* Message with responsive animations */}
               <span className="font-poppins relative overflow-hidden">
                 <span className={`
                   inline-block
                   animate-bounce-subtle
                   ${isHovered ? 'animate-bounce-intense' : ''}
+                  px-1
                 `}>
                   {message}
                 </span>
               </span>
               
+              {/* Link with responsive styling - shows inline on larger screens */}
               {linkText && linkUrl && (
                 <a 
                   href={linkUrl} 
                   className={`
-                    inline-flex items-center gap-1.5
+                    inline-flex items-center justify-center xs:justify-start 
+                    gap-1 sm:gap-1.5
                     font-semibold 
                     transition-all duration-200
-                    hover:gap-2
+                    hover:gap-2 sm:hover:gap-2
                     group
                     ${currentVariant.link}
                     animate-pulse-subtle
                     hover:animate-none
+                    text-xs sm:text-sm md:text-base
+                    mt-1 xs:mt-0
                   `}
                   onClick={(e) => {
                     if (autoClose) handleClose();
                   }}
                 >
-                  <span className="relative">
+                  <span className="relative whitespace-nowrap">
                     {linkText}
-                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-current transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-current transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left hidden sm:block" />
                   </span>
-                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:scale-110 animate-slideRight" />
+                  <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1 group-hover:scale-110 animate-slideRight" />
                 </a>
               )}
             </div>
           </div>
 
+          {/* Dismiss button - positioned absolutely on mobile, inline on larger */}
           {dismissible && (
             <button 
               onClick={handleClose}
               className={`
-                flex-shrink-0 p-1.5 rounded-lg
+                ${dismissible ? 'flex' : 'hidden'}
+                xs:static absolute top-2 right-2 xs:relative
+                flex-shrink-0 p-1 sm:p-1.5 rounded-lg
                 ${currentVariant.text} 
                 hover:bg-black/5
                 transition-all duration-200
                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400
                 hover:rotate-90
                 active:scale-95
+                z-10
               `}
               aria-label="Close announcement"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3 h-3 sm:w-4 sm:h-4" />
             </button>
           )}
         </div>
       </div>
 
+      {/* Auto-close progress bar - responsive positioning */}
       {autoClose && isVisible && (
         <div 
           className="absolute bottom-0 left-0 h-0.5 bg-black/10"
@@ -157,6 +171,7 @@ const Announcement: React.FC<AnnouncementProps> = ({
         />
       )}
 
+      {/* Responsive animations */}
       <style jsx>{`
         @keyframes slideDown {
           from {
@@ -239,6 +254,47 @@ const Announcement: React.FC<AnnouncementProps> = ({
         .animate-bounce-intense {
           animation: bounceIntense 0.5s ease-in-out;
         }
+
+        /* Custom breakpoint for extra small devices */
+        @media (min-width: 480px) {
+          .xs\:flex-row {
+            flex-direction: row;
+          }
+          .xs\:flex-1 {
+            flex: 1 1 0%;
+          }
+          .xs\:text-left {
+            text-align: left;
+          }
+          .xs\:justify-start {
+            justify-content: flex-start;
+          }
+          .xs\:static {
+            position: static;
+          }
+          .xs\:mt-0 {
+            margin-top: 0;
+          }
+          .xs\:absolute {
+            position: absolute;
+          }
+          .xs\:relative {
+            position: relative;
+          }
+        }
+
+        /* Mobile-specific optimizations */
+        @media (max-width: 480px) {
+          .group:hover .group-hover\\:scale-110 {
+            transform: scale(1.05);
+          }
+          
+          /* Ensure text doesn't overflow on very small screens */
+          .font-poppins {
+            max-width: calc(100vw - 80px);
+            display: inline-block;
+          }
+        }
       `}</style>
     </div>
   );
@@ -246,7 +302,7 @@ const Announcement: React.FC<AnnouncementProps> = ({
 
 export const AnnouncementExamples = () => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-2 sm:space-y-4 w-full">
       <Announcement 
         variant="info"
         message="📢 System maintenance scheduled for Sunday 2 AM EST"

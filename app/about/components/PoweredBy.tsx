@@ -18,7 +18,7 @@ export default function PoweredBy() {
           <Image
             src="/about/poweredby/1.png"
             alt="Xavier & Associates"
-            width={1229}
+            width={800}
             height={188}
             className="object-contain"
           />
