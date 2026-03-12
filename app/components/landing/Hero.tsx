@@ -28,7 +28,7 @@ const Hero = () => {
             style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}>
 <div>Connecting the{' '}
   <span className="relative inline-block">
-    <span className="relative z-10 font-playfair italic font-semibold bg-gradient-to-r from-black to-[#8ec4e8] bg-clip-text text-transparent">
+    <span className="relative z-10 font-playfair italic font-semibold bg-gradient-to-r from-black to-black bg-clip-text text-transparent">
       Best
     </span>
     <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent"></span>
@@ -37,7 +37,7 @@ const Hero = () => {
 
 <div>
   <span className="relative inline-block">
-    <span className="relative z-10 font-playfair italic font-semibold bg-gradient-to-r from-[#8ec4e8] to-black bg-clip-text text-transparent">
+    <span className="relative z-10 font-playfair italic font-semibold bg-gradient-to-r from-black to-black bg-clip-text text-transparent">
       Minds
     </span>
     <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent"></span>
@@ -48,7 +48,7 @@ const Hero = () => {
         
         {/* Supporting text with better hierarchy */}
         <p className="opacity-0 animate-fade-in-up text-lg sm:text-xl md:text-2xl text-black max-w-3xl mx-auto leading-relaxed font-normal font-poppins tracking-wide"
-           style={{ animationDelay: '0.6s', animationFillMode: 'forwards' }}>
+           style={{ animationDelay: '2s', animationFillMode: 'forwards' }}>
           Building meaningful partnerships through{' '}
           <span className="text-black font-bold">training, collaboration,</span> and{' '}
           <span className="text-black font-bold">expert guidance</span>.
@@ -70,7 +70,7 @@ const Hero = () => {
           }
         }
         .animate-fade-in-up {
-          animation: fadeInUp 1s ease-out forwards;
+          animation: fadeInUp 2s ease-out forwards;
         }
       `}</style>
     </section>

@@ -7,11 +7,11 @@ import { useState, useEffect, useRef } from "react";
 export default function Section1() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  const autoplayRef = useRef(null);
-  const animationRef = useRef(null);
-  const startTimeRef = useRef(null);
-  const startIndexRef = useRef(0);
-  const targetIndexRef = useRef(0);
+  const autoplayRef = useRef<number | null>(null);
+  const animationRef = useRef<number | null>(null);
+  const startTimeRef = useRef<number | null>(null);
+  const startIndexRef = useRef<number>(0);
+  const targetIndexRef = useRef<number>(0);
 
   const images = [
     {
@@ -37,7 +37,7 @@ export default function Section1() {
   const slideWidth = 390 + 24; // image width + gap
 
   // Smooth continuous animation function
-  const animate = (timestamp) => {
+  const animate = (timestamp: number) => {
     if (!startTimeRef.current) {
       startTimeRef.current = timestamp;
       startIndexRef.current = currentIndex;
@@ -121,10 +121,10 @@ export default function Section1() {
       <div className="max-w-8xl mx-auto px-6 lg:px-8 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
           
-          {/* LEFT TEXT - Now vertically centered */}
-          <div className="flex items-center justify-center">
-            <div className="max-w-xl">
-              <h2 className="text-4xl md:text-5xl leading-tight font-poppins text-black">
+          {/* LEFT TEXT - Vertically centered with 20% larger text, flexible width, and extra left padding */}
+          <div className="flex items-center justify-center h-full pl-8 lg:pl-16 xl:pl-24">
+            <div className="w-full lg:w-auto lg:min-w-[500px] xl:min-w-[600px] 2xl:min-w-[700px]">
+              <h2 className="text-5xl md:text-6xl lg:text-6xl leading-tight font-poppins text-black">
                 The{" "}
                 <span className="font-playfair italic">
                   Hidden Strain
@@ -132,35 +132,35 @@ export default function Section1() {
                 Behind Hospitality Service
               </h2>
 
-              <p className="mt-6 text-lg text-gray-700 font-jost leading-relaxed">
+              <p className="mt-8 text-xl md:text-2xl text-gray-700 font-jost leading-relaxed max-w-3xl">
                 Guest complaints are often people-related, employees face weekly
                 emotional exhaustion, and recognition is rare.
               </p>
 
-              <p className="mt-6 text-lg text-gray-700 font-jost leading-relaxed">
-                The industry is feeling the pressure—and this is where we come in.
+              <p className="mt-8 text-xl md:text-2xl text-gray-700 font-jost leading-relaxed max-w-3xl">
+                The industry is feeling the pressure <br /> - and this is where we come in.
               </p>
             </div>
           </div>
 
-          {/* RIGHT MEDIA - CAROUSEL */}
+          {/* RIGHT MEDIA - CAROUSEL - Fixed width */}
           <div 
-            className="relative w-full"
+            className="relative w-full max-w-[800px] justify-self-end"
             onMouseEnter={pauseAutoplay}
             onMouseLeave={resumeAutoplay}
           >
             {/* Carousel container with gradient overlays */}
             <div className="relative overflow-hidden rounded-xl">
               {/* Left gradient overlay - makes image disappear on left side */}
-              <div className="absolute left-0 top-0 bottom-0 w-32 z-20 pointer-events-none bg-gradient-to-r from-[#f3f3f3] via-[#f3f3f3]/80 to-transparent"></div>
+              <div className="absolute left-0 top-0 bottom-0 w-32 z-20 pointer-events-none bg-gradient-to-r from-[#f3f3f3] via-[#f3f3f3]/95 to-transparent"></div>
               
               {/* Right gradient overlay - makes image disappear on right side */}
-              <div className="absolute right-0 top-0 bottom-0 w-32 z-20 pointer-events-none bg-gradient-to-l from-[#f3f3f3] via-[#f3f3f3]/80 to-transparent"></div>
+              <div className="absolute right-0 top-0 bottom-0 w-32 z-20 pointer-events-none bg-gradient-to-l from-[#f3f3f3] via-[#f3f3f3]/95 to-transparent"></div>
               
               {/* Navigation Buttons */}
               <button 
                 onClick={prevSlide}
-                className="absolute left-8 top-1/2 -translate-y-1/2 z-30 text-[#225475] bg-white backdrop-blur-sm rounded-lg p-3 shadow-lg hover:scale-105 transition-all hover:bg-gray-100"
+                className="absolute left-8 top-1/2 -translate-y-1/2 z-30 text-[#225475] bg-white backdrop-blur-sm rounded-full p-3 shadow-lg hover:scale-105 transition-all hover:bg-gray-100"
                 aria-label="Previous slide"
               >
                 <ArrowLeft size={18} />
@@ -168,7 +168,7 @@ export default function Section1() {
               
               <button 
                 onClick={nextSlide}
-                className="absolute right-8 top-1/2 -translate-y-1/2 z-30 text-[#225475] bg-white backdrop-blur-sm rounded-lg p-3 shadow-lg hover:scale-105 transition-all hover:bg-gray-100"
+                className="absolute right-8 top-1/2 -translate-y-1/2 z-30 text-[#225475] bg-white backdrop-blur-sm rounded-full p-3 shadow-lg hover:scale-105 transition-all hover:bg-gray-100"
                 aria-label="Next slide"
               >
                 <ArrowRight size={18} />

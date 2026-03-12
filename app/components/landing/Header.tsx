@@ -7,8 +7,8 @@ import { Menu, X } from "lucide-react";
 
 // Navigation links configuration for easy maintenance
 const NAVIGATION_LINKS = [
-  { href: "#Process", label: "About Us" },
-  { href: "#Clients", label: "Our Experts" },
+  { href: "/about", label: "About Us" },
+  { href: "/experts", label: "Our Experts" },
   { href: "#Team", label: "Bootcamps" },
   { href: "/pricing", label: "Training Programs" },
 ] as const;
@@ -38,8 +38,8 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full flex justify-center fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4">
-      <div className="w-[80%] max-w-7xl bg-[#0a0a0a] rounded-3xl px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-lg">
+    <header className="w-full flex justify-center fixed top-13 left-1/2 -translate-x-1/2 z-50 px-4">
+      <div className="w-[80%] max-w-7xl bg-[#0a0a0a] rounded-3xl px-4 sm:px-6 py-2 flex items-center justify-between shadow-lg">
         
         {/* Logo */}
         <Link 
