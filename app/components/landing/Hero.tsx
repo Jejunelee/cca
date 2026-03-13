@@ -25,17 +25,17 @@ const Hero = () => {
         {/* Main headline with enhanced responsive sizing */}
         <h1 className="opacity-0 animate-fade-in-up text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-thin font-poppins text-black mb-4 sm:mb-6 tracking-tight" 
             style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}>
-          <div className="flex flex-col xs:block">
+          <div className="flex flex-col">
             <span>Connecting the{' '}</span>
-            <span className="relative inline-block mt-2 xs:mt-0">
+            <span className="relative mt-2 xs:mt-0">
               <span className="relative z-10 font-playfair italic font-semibold bg-gradient-to-r from-black to-black bg-clip-text text-transparent">
                 Best
               </span>
             </span>
           </div>
 
-          <div className="flex flex-col xs:block mt-2 xs:mt-0">
-            <span className="relative inline-block">
+          <div className="flex flex-col mt-2 xs:mt-0">
+            <span className="relative">
               <span className="relative z-10 font-playfair italic font-semibold bg-gradient-to-r from-black to-black bg-clip-text text-transparent">
                 Minds
               </span>
