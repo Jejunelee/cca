@@ -22,27 +22,24 @@ const Hero = () => {
       {/* Content with responsive typography and refined spacing */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 md:py-20 lg:py-32 text-center">
         
-        {/* Main headline with enhanced responsive sizing */}
-        <h1 className="opacity-0 animate-fade-in-up text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-thin font-poppins text-black mb-4 sm:mb-6 tracking-tight" 
-            style={{ animationDelay: '0.4s', animationFillMode: 'forwards' }}>
-          <div className="flex flex-col">
-            <span>Connecting the{' '}</span>
-            <span className="relative mt-2 xs:mt-0">
-              <span className="relative z-10 font-playfair italic font-semibold bg-gradient-to-r from-black to-black bg-clip-text text-transparent">
-                Best
-              </span>
-            </span>
-          </div>
+      <h1
+  className="opacity-0 animate-fade-in-up text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-thin font-poppins text-black mb-4 sm:mb-6 tracking-tight"
+  style={{ animationDelay: "0.4s", animationFillMode: "forwards" }}
+>
+  <div>
+    Connecting the{" "}
+    <span className="font-playfair italic font-semibold">
+      Best
+    </span>
+  </div>
 
-          <div className="flex flex-col mt-2 xs:mt-0">
-            <span className="relative">
-              <span className="relative z-10 font-playfair italic font-semibold bg-gradient-to-r from-black to-black bg-clip-text text-transparent">
-                Minds
-              </span>
-            </span>{' '}
-            <span>in the Industry</span>
-          </div>
-        </h1>
+  <div>
+    <span className="font-playfair italic font-semibold">
+      Minds
+    </span>{" "}
+    in the Industry
+  </div>
+</h1>
         
         {/* Supporting text with responsive sizing and optimized line heights */}
         <p className="opacity-0 animate-fade-in-up text-base sm:text-lg md:text-xl lg:text-2xl text-black/90 max-w-3xl mx-auto leading-relaxed sm:leading-relaxed font-normal font-poppins tracking-wide px-4 sm:px-0"
