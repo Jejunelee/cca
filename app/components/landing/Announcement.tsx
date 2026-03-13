@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, ArrowRight } from 'lucide-react';
 
 interface AnnouncementProps {
@@ -26,6 +26,9 @@ const Announcement: React.FC<AnnouncementProps> = ({
 }) => {
   const [isVisible, setIsVisible] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
+  const [shouldMarquee, setShouldMarquee] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (autoClose && isVisible) {
@@ -36,6 +39,26 @@ const Announcement: React.FC<AnnouncementProps> = ({
       return () => clearTimeout(timer);
     }
   }, [autoClose, isVisible, autoCloseDelay]);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (contentRef.current && containerRef.current) {
+        // Only check for overflow on mobile screens
+        const isMobile = window.innerWidth < 640;
+        if (isMobile) {
+          const contentWidth = contentRef.current.scrollWidth;
+          const containerWidth = containerRef.current.offsetWidth;
+          setShouldMarquee(contentWidth > containerWidth);
+        } else {
+          setShouldMarquee(false);
+        }
+      }
+    };
+
+    checkOverflow();
+    window.addEventListener('resize', checkOverflow);
+    return () => window.removeEventListener('resize', checkOverflow);
+  }, [message, linkText]);
 
   const handleClose = () => {
     setIsVisible(false);
@@ -88,62 +111,129 @@ const Announcement: React.FC<AnnouncementProps> = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="max-w-8xl mx-auto">
-        <div className="flex flex-col xs:flex-row items-center justify-between gap-2 sm:gap-4">
+        <div className="flex items-center justify-between gap-2 sm:gap-4">
           
-          {/* Main content container - centered */}
-          <div className="w-full xs:flex-1 flex items-center justify-center">
-            <div className="flex flex-col xs:flex-row items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base lg:text-lg text-center xs:text-left">
-              
-              {/* Message with responsive animations */}
-              <span className="font-poppins relative overflow-hidden">
-                <span className={`
-                  inline-block
-                  animate-bounce-subtle
-                  ${isHovered ? 'animate-bounce-intense' : ''}
-                  px-1
-                `}>
-                  {message}
-                </span>
-              </span>
-              
-              {/* Link with responsive styling - shows inline on larger screens */}
-              {linkText && linkUrl && (
-                <a 
-                  href={linkUrl} 
-                  className={`
-                    inline-flex items-center justify-center xs:justify-start 
-                    gap-1 sm:gap-1.5
-                    font-semibold 
-                    transition-all duration-200
-                    hover:gap-2 sm:hover:gap-2
-                    group
-                    ${currentVariant.link}
-                    animate-pulse-subtle
-                    hover:animate-none
-                    text-xs sm:text-sm md:text-base
-                    mt-1 xs:mt-0
-                  `}
-                  onClick={(e) => {
-                    if (autoClose) handleClose();
-                  }}
-                >
-                  <span className="relative whitespace-nowrap">
-                    {linkText}
-                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-current transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left hidden sm:block" />
-                  </span>
-                  <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1 group-hover:scale-110 animate-slideRight" />
-                </a>
-              )}
+          {/* Main content container - centered on desktop, marquee on mobile */}
+          <div className="flex-1 flex justify-center min-w-0">
+            <div 
+              ref={containerRef}
+              className="overflow-hidden max-w-full"
+            >
+              <div 
+                ref={contentRef}
+                className={`
+                  inline-flex items-center gap-1 sm:gap-2
+                  text-xs sm:text-sm md:text-base lg:text-lg
+                  ${shouldMarquee ? 'animate-marquee hover:pause-animation' : ''}
+                `}
+                style={{
+                  whiteSpace: shouldMarquee ? 'nowrap' : 'normal',
+                  ...(shouldMarquee ? { willChange: 'transform' } : {})
+                }}
+              >
+                {/* Desktop layout (centered) */}
+                {!shouldMarquee && (
+                  <div className="flex flex-col xs:flex-row items-center justify-center gap-1 sm:gap-2 text-center xs:text-left">
+                    {/* Message with responsive animations */}
+                    <span className="font-poppins relative overflow-hidden">
+                      <span className={`
+                        inline-block
+                        animate-bounce-subtle
+                        ${isHovered ? 'animate-bounce-intense' : ''}
+                        px-1
+                      `}>
+                        {message}
+                      </span>
+                    </span>
+                    
+                    {/* Link with responsive styling */}
+                    {linkText && linkUrl && (
+                      <a 
+                        href={linkUrl} 
+                        className={`
+                          inline-flex items-center justify-center xs:justify-start 
+                          gap-1 sm:gap-1.5
+                          font-semibold 
+                          transition-all duration-200
+                          hover:gap-2 sm:hover:gap-2
+                          group
+                          ${currentVariant.link}
+                          animate-pulse-subtle
+                          hover:animate-none
+                          text-xs sm:text-sm md:text-base
+                          mt-1 xs:mt-0
+                        `}
+                        onClick={(e) => {
+                          if (autoClose) handleClose();
+                        }}
+                      >
+                        <span className="relative whitespace-nowrap">
+                          {linkText}
+                          <span className="absolute bottom-0 left-0 w-full h-0.5 bg-current transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left hidden sm:block" />
+                        </span>
+                        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1 group-hover:scale-110 animate-slideRight" />
+                      </a>
+                    )}
+                  </div>
+                )}
+
+                {/* Mobile marquee layout (single line) */}
+                {shouldMarquee && (
+                  <>
+                    {/* Message with responsive animations */}
+                    <span className="font-poppins relative overflow-hidden">
+                      <span className={`
+                        inline-block
+                        animate-bounce-subtle
+                        ${isHovered ? 'animate-bounce-intense' : ''}
+                        px-1
+                      `}>
+                        {message}
+                      </span>
+                    </span>
+                    
+                    {/* Separator dot for marquee mode */}
+                    <span className="w-1 h-1 rounded-full bg-current opacity-50 mx-2" />
+                    
+                    {/* Link */}
+                    {linkText && linkUrl && (
+                      <a 
+                        href={linkUrl} 
+                        className={`
+                          inline-flex items-center justify-center 
+                          gap-1 sm:gap-1.5
+                          font-semibold 
+                          transition-all duration-200
+                          hover:gap-2 sm:hover:gap-2
+                          group
+                          ${currentVariant.link}
+                          animate-pulse-subtle
+                          hover:animate-none
+                          text-xs sm:text-sm md:text-base
+                          flex-shrink-0
+                        `}
+                        onClick={(e) => {
+                          if (autoClose) handleClose();
+                        }}
+                      >
+                        <span className="relative whitespace-nowrap">
+                          {linkText}
+                          <span className="absolute bottom-0 left-0 w-full h-0.5 bg-current transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left hidden sm:block" />
+                        </span>
+                        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1 group-hover:scale-110 animate-slideRight" />
+                      </a>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Dismiss button - positioned absolutely on mobile, inline on larger */}
+          {/* Dismiss button */}
           {dismissible && (
             <button 
               onClick={handleClose}
               className={`
-                ${dismissible ? 'flex' : 'hidden'}
-                xs:static absolute top-2 right-2 xs:relative
                 flex-shrink-0 p-1 sm:p-1.5 rounded-lg
                 ${currentVariant.text} 
                 hover:bg-black/5
@@ -161,7 +251,7 @@ const Announcement: React.FC<AnnouncementProps> = ({
         </div>
       </div>
 
-      {/* Auto-close progress bar - responsive positioning */}
+      {/* Auto-close progress bar */}
       {autoClose && isVisible && (
         <div 
           className="absolute bottom-0 left-0 h-0.5 bg-black/10"
@@ -235,6 +325,15 @@ const Announcement: React.FC<AnnouncementProps> = ({
           }
         }
 
+        @keyframes marquee {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
         .animate-slideDown {
           animation: slideDown 0.5s ease-out;
         }
@@ -255,13 +354,36 @@ const Announcement: React.FC<AnnouncementProps> = ({
           animation: bounceIntense 0.5s ease-in-out;
         }
 
+        .animate-marquee {
+          animation: marquee 20s linear infinite;
+        }
+
+        .pause-animation {
+          animation-play-state: paused;
+        }
+
+        /* Hover pause for accessibility */
+        .animate-marquee:hover {
+          animation-play-state: paused;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+          .animate-marquee {
+            animation-duration: 15s;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .animate-marquee {
+            animation-duration: 12s;
+          }
+        }
+
         /* Custom breakpoint for extra small devices */
         @media (min-width: 480px) {
           .xs\:flex-row {
             flex-direction: row;
-          }
-          .xs\:flex-1 {
-            flex: 1 1 0%;
           }
           .xs\:text-left {
             text-align: left;
@@ -269,30 +391,8 @@ const Announcement: React.FC<AnnouncementProps> = ({
           .xs\:justify-start {
             justify-content: flex-start;
           }
-          .xs\:static {
-            position: static;
-          }
           .xs\:mt-0 {
             margin-top: 0;
-          }
-          .xs\:absolute {
-            position: absolute;
-          }
-          .xs\:relative {
-            position: relative;
-          }
-        }
-
-        /* Mobile-specific optimizations */
-        @media (max-width: 480px) {
-          .group:hover .group-hover\\:scale-110 {
-            transform: scale(1.05);
-          }
-          
-          /* Ensure text doesn't overflow on very small screens */
-          .font-poppins {
-            max-width: calc(100vw - 80px);
-            display: inline-block;
           }
         }
       `}</style>

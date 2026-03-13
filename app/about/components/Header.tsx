@@ -11,7 +11,7 @@ const playfair = Playfair_Display({
 export default function Header() {
   return (
     <section className="w-full bg-gradient-to-b from-[#AFCFE4]/80 to-white py-12 sm:py-16 px-4 sm:px-6 flex items-center justify-center">
-      <div className="w-full max-w-lg text-center mt-24 sm:mt-24">
+      <div className="w-full max-w-lg text-center mt-24 sm:mt-32">
         
         {/* Title - Responsive text sizing */}
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-light text-black font-poppins leading-tight sm:leading-normal">
@@ -22,7 +22,7 @@ export default function Header() {
         </h1>
 
         {/* Description - Better mobile readability */}
-        <p className="mt-4 sm:mt-1 text-base sm:text-lg text-gray-700 leading-relaxed px-2 sm:px-0">
+        <p className="text-base sm:text-lg text-gray-700 leading-relaxed px-2 sm:px-0">
           To bridge between ideas and industry: connecting hospitality
           businesses with expert consultants, bootcamps, and training
           programs to elevate standards.

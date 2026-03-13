@@ -43,15 +43,8 @@ export default function HowItWorks() {
           </span>
         </h2>
 
-        {/* Decorative divider - responsive sizing */}
-        <div className="relative flex justify-center items-center my-4 sm:my-5 md:my-6">
-          <div className="w-10 sm:w-12 md:w-14 lg:w-16 h-[2px] bg-gray-300"></div>
-          <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-gray-400 rounded-full mx-1.5 sm:mx-2"></div>
-          <div className="w-10 sm:w-12 md:w-14 lg:w-16 h-[2px] bg-gray-300"></div>
-        </div>
-
         {/* Subtitle - responsive sizing */}
-        <p className="max-w-3xl mx-auto text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-10 sm:mb-12 md:mb-14 lg:mb-16 xl:mb-20 leading-relaxed px-2 sm:px-4">
+        <p className="font-poppins max-w-3xl mx-auto text-sm sm:text-base md:text-lg lg:text-xl text-gray-700 mb-10 sm:mb-12 md:mb-14 lg:mb-16 xl:mb-20 leading-relaxed px-2 sm:px-4">
           Your gateway to Philippines' top Food, Beverage, and
           Hospitality experts—streamlined for success.
         </p>
@@ -72,12 +65,12 @@ export default function HowItWorks() {
               </div>
 
               {/* Title - responsive sizing */}
-              <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-black mb-2 sm:mb-3 md:mb-4 leading-tight">
+              <h3 className="font-poppins text-base sm:text-lg md:text-xl lg:text-2xl font-semibold text-black mb-2 sm:mb-3 md:mb-4 leading-tight">
                 {step.title}
               </h3>
 
               {/* Description - responsive sizing */}
-              <p className="text-gray-600 leading-relaxed mb-4 sm:mb-5 md:mb-6 lg:mb-8 text-xs sm:text-sm md:text-base px-1 sm:px-2">
+              <p className="font-poppins text-gray-600 leading-relaxed mb-4 sm:mb-5 md:mb-6 lg:mb-8 text-xs sm:text-sm md:text-base px-1 sm:px-2">
                 {step.description}
               </p>
 

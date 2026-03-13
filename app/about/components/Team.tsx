@@ -57,7 +57,7 @@ export default function Team() {
                 />
               </div>
 
-              <div className="p-2 sm:p-3 md:p-4 text-center">
+              <div className="font-poppins p-2 sm:p-3 md:p-4 text-center">
                 <h3 className="text-black text-sm sm:text-base md:text-lg font-medium leading-tight">
                   {member.name}
                 </h3>

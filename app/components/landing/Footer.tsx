@@ -19,7 +19,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-[#9CB3C2] py-10 sm:py-12 md:py-14 lg:py-16 px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16">
+    <footer className="w-full bg-[#AFCFE4] py-10 sm:py-12 md:py-14 lg:py-16 px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16">
       <div className="max-w-8xl w-[95%] sm:w-[93%] md:w-[93%] mx-auto flex flex-col md:flex-row justify-between gap-8 sm:gap-10 md:gap-12 lg:gap-16">
         
         {/* Left Section - responsive spacing */}

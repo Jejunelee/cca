@@ -42,31 +42,25 @@ const images = [
   // 9: Summit
   {
     src: "/landing/pevents/9.jpg",
-    caption: "SUMMIT\nX", // Replace LOCATION with actual venue
+    caption: "SUMMIT\nBRITTANY HOTEL", // Replace LOCATION with actual venue
   },
   
   // 10-13: TIKIM
   {
     src: "/landing/pevents/10.jpg",
-    caption: "TIKIM\nX", // Replace LOCATION with actual venue
+    caption: "TIKIM\nBRITTANY HOTEL", // Replace LOCATION with actual venue
   },
   {
     src: "/landing/pevents/11.jpg",
-    caption: "TIKIM\nX", // Replace LOCATION with actual venue
+    caption: "TIKIM\nBRITTANY HOTEL", // Replace LOCATION with actual venue
   },
   {
     src: "/landing/pevents/12.jpg",
-    caption: "TIKIM\nX", // Replace LOCATION with actual venue
+    caption: "TIKIM\nBRITTANY HOTEL", // Replace LOCATION with actual venue
   },
   {
     src: "/landing/pevents/13.jpg",
-    caption: "TIKIM\nX", // Replace LOCATION with actual venue
-  },
-  
-  // 14: FILIPINO TURKISH BUFFET
-  {
-    src: "/landing/pevents/14.jpg",
-    caption: "FILIPINO TURKISH BUFFET\nLOCATION", // Replace LOCATION with actual venue
+    caption: "TIKIM\nBRITTANY HOTEL", // Replace LOCATION with actual venue
   },
 ];
 

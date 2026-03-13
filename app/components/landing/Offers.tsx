@@ -7,20 +7,20 @@ export default function Offers() {
   const offers = [
     {
       title: "Consultancy Services",
-      image: "/landing/offers1-1.png",
+      image: "/landing/offers1x.jpg",
       description: "Strategic guidance for your business growth",
       href: "/experts"  // Internal link
     },
     {
       title: "Bootcamps & Summits",
-      image: "/landing/offers2.png",
+      image: "/landing/offers2x.jpg",
       description: "Intensive learning experiences and networking",
       href: "https://www.events.ccaconnect.co/",  // External link
       external: true
     },
     {
       title: "Training Programs",
-      image: "/landing/offers3.png",
+      image: "/landing/offers3x.jpg",
       description: "Comprehensive skill development courses",
       href: "/training"  // Internal link
     },

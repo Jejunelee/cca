@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Playfair_Display } from "next/font/google";
 
 const playfair = Playfair_Display({
@@ -10,14 +11,14 @@ const playfair = Playfair_Display({
 });
 
 const experts = [
-  { name: "BEA TRINIDAD", role: "PR AND MARKETING", image: "/experts/team/trinidad.jpg" },
-  { name: "KERWIN FUENTANILLA", role: "MENU DEVELOPMENT", image: "/experts/team/fuentanilla.jpg" },
-  { name: "ISABEL LOZANO", role: "SERVICE AND SPACE DESIGN", image: "/experts/team/lozano.jpg" },
-  { name: "CEDRIC MANALO", role: "BEVERAGE", image: "/experts/team/manalo.jpg" },
-  { name: "MIGUEL LORINO", role: "MENU DEVELOPMENT", image: "/experts/team/lorino.jpg" },
-  { name: "RL GARCIA", role: "TALENT ACQUISITION", image: "/experts/team/garcia.jpg" },
-  { name: "XAVIER ALPASA", role: "TRAINING & DEVELOPMENT", image: "/experts/team/alpasa.png" },
-  { name: "WORKS FINE STUDIOS", role: "PR AND MARKETING", image: "/experts/team/worksfine.png" },
+  { name: "BEA TRINIDAD", role: "PR AND MARKETING", image: "/experts/team/trinidad.jpg", slug: "bea-trinidad" },
+  { name: "KERWIN FUENTANILLA", role: "MENU DEVELOPMENT", image: "/experts/team/fuentanilla.jpg", slug: "fuentanilla-lorino-mendoza" },
+  { name: "ISABEL LOZANO", role: "SERVICE AND SPACE DESIGN", image: "/experts/team/lozano.jpg", slug: "isabel-lozano" },
+  { name: "CEDRIC MENDOZA", role: "BEVERAGE", image: "/experts/team/mendoza.jpg", slug: "fuentanilla-lorino-mendoza" },
+  { name: "MIGUEL LORINO", role: "MENU DEVELOPMENT", image: "/experts/team/lorino.jpg", slug: "fuentanilla-lorino-mendoza" },
+  { name: "RL GARCIA", role: "TALENT ACQUISITION", image: "/experts/team/garcia.jpg", slug: "rl-garcia" },
+  { name: "XAVIER ALPASA", role: "TRAINING & DEVELOPMENT", image: "/experts/team/alpasa.png", slug: "xavier-alpasa" },
+  { name: "WORKS FINE STUDIOS", role: "PR AND MARKETING", image: "/experts/team/worksfine.png", slug: "#" },
 ];
 
 export default function ExpertsTeam() {
@@ -37,9 +38,10 @@ export default function ExpertsTeam() {
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6 xl:gap-8">
 
           {experts.map((expert, i) => (
-            <div
+            <Link
               key={i}
-              className="relative rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden group cursor-pointer"
+              href={`/experts/${expert.slug}`}
+              className="relative rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden group cursor-pointer block"
             >
               <div className="relative w-full aspect-[3/4]">
                 <Image
@@ -70,7 +72,7 @@ export default function ExpertsTeam() {
 
               {/* Optional decorative element on hover */}
               <div className="absolute top-2 right-2 w-6 h-6 border-t-2 border-r-2 border-white/0 group-hover:border-white/50 transition-all duration-300 hidden sm:block" />
-            </div>
+            </Link>
           ))}
 
         </div>

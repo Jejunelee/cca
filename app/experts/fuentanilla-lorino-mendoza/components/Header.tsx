@@ -14,18 +14,13 @@ export default function Header() {
       <div className="w-full max-w-4xl text-center mt-24 sm:mt-32">
         
         {/* Title - Tighter line spacing */}
-        <h1 className="text-4xl sm:text-5xl md:text-7xl font-light text-black font-poppins leading-[1.1] sm:leading-[1]">
-          Develop the People Who{" "}
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-light text-black font-poppins leading-[1] sm:leading-[1]">
+          Food and Bar{" "}
           <span className="font-playfair italic font-semibold sm:inline">
-            power{" "}
+            Menu
           </span>
-          your business
+          {" "}development
         </h1>
-
-        {/* Description - Better mobile readability */}
-        <p className="max-w-lg mx-auto sm:mt-6 text-base sm:text-lg text-gray-700 leading-relaxed px-2 sm:px-0">
-          Targeted training solutions designed for measurable impact.
-        </p>
 
       </div>
     </section>

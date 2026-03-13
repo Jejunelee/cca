@@ -25,7 +25,7 @@ export default function Section1() {
 
           <div className="w-20 sm:w-24 md:w-32 h-[2px] bg-black mt-3 sm:mt-4 mb-4 sm:mb-6"></div>
 
-          <div className="space-y-4 sm:space-y-5 md:space-y-6 text-gray-800 leading-relaxed text-base sm:text-lg md:text-xl lg:text-2xl">
+          <div className="space-y-4 sm:space-y-5 md:space-y-6 text-gray-800 leading-relaxed text-base font-poppins sm:text-sm md:text-md lg:text-lg">
             <p>
               CCA Connect is the industry engagement arm of CCA Manila,
               created to strengthen the link between education, expertise,

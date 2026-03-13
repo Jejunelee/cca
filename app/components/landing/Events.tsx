@@ -5,20 +5,20 @@ import { Playfair_Display } from "next/font/google";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
-  style: ["italic"],
+  style: ["normal"],
   weight: ["400"],
 });
 
 const events = [
   {
     title: "HOSPITALITY SUMMIT",
-    date: "June 2026",
+    date: "June 4, 2026",
     image: "/landing/events/1.png",
   },
   {
-    title: "TIKIM FOOD MARKET",
-    date: "June 2026",
-    image: "/landing/events/2.png",
+    title: "SHARED TABLE",
+    date: "March 28, 2026",
+    image: "/landing/events/3.jpg",
   },
 ];
 
@@ -28,10 +28,10 @@ export default function Events() {
       <div className="max-w-7xl mx-auto w-full">
         {/* Title with subtle underline accent - responsive sizing */}
         <div className="mb-8 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 text-center sm:text-left">
-          <h2 className={`${playfair.className} text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-black leading-tight`}>
+          <h2 className={`${playfair.className} text-black text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-light tracking-tight leading-tight`}>
             Don't miss the next one...
           </h2>
-          <div className="w-16 sm:w-20 md:w-24 h-[2px] bg-gray-400/50 mt-3 sm:mt-4 mx-auto sm:mx-0"></div>
+          <div className="h-0.5 sm:h-1 w-12 sm:w-16 md:w-20 lg:w-24 bg-[#8fb3c9] mt-2 sm:mt-3 md:mt-4 mx-auto md:mx-0 rounded-full" />zz
         </div>
 
         {/* Events grid - responsive gaps */}
@@ -39,7 +39,7 @@ export default function Events() {
           {events.map((event, i) => (
             <div 
               key={i} 
-              className="group bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:hover:shadow-xl rounded-lg overflow-hidden"
+              className="shadow-lg group bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:hover:shadow-xl rounded-lg overflow-hidden"
             >
               {/* Image with subtle border - responsive height */}
               <div className="relative w-full h-[200px] xs:h-[220px] sm:h-[250px] md:h-[280px] lg:h-[320px] xl:h-[340px] overflow-hidden">
@@ -58,19 +58,21 @@ export default function Events() {
               </div>
 
               {/* Info Bar with refined styling - responsive padding */}
-              <div className="bg-[#c9d6db] px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 py-4 sm:py-5 md:py-6">
+              <div className="bg-[#E7F5F5] px-4 sm:px-5 md:px-6 lg:px-7 xl:px-8 py-4 sm:py-5 md:py-6">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
                   <div className="flex-1">
                     <h3 className={`${playfair.className} text-xl sm:text-2xl md:text-2xl lg:text-3xl font-medium text-black mb-0.5 sm:mb-1 leading-tight`}>
                       {event.title}
                     </h3>
-                    <p className="text-base sm:text-lg md:text-lg lg:text-xl italic text-gray-700">
+                    <p className="text-base italic sm:text-lg md:text-lg lg:text-xl text-gray-700">
                       {event.date}
                     </p>
                   </div>
 
                   <a
-                    href="#"
+                    href="https://www.events.ccaconnect.co/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center text-black hover:text-gray-700 transition-colors duration-300 group/link self-start sm:self-center"
                   >
                     <span className="text-sm sm:text-base md:text-base lg:text-lg border-b border-transparent group-hover/link:border-black transition-all duration-300">
@@ -94,7 +96,9 @@ export default function Events() {
         {/* Subtle view all link - responsive spacing */}
         <div className="text-center mt-8 sm:mt-10 md:mt-12">
           <a
-            href="/events"
+            href="https://www.events.ccaconnect.co/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center text-gray-600 hover:text-black transition-colors duration-300 group"
           >
             <span className="text-sm sm:text-base md:text-lg border-b border-transparent group-hover:border-black transition-all duration-300">

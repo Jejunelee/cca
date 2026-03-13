@@ -13,19 +13,14 @@ export default function Header() {
     <section className="w-full bg-gradient-to-b from-[#AFCFE4]/80 to-white py-12 sm:py-16 px-4 sm:px-6 flex items-center justify-center">
       <div className="w-full max-w-4xl text-center mt-24 sm:mt-32">
         
-        {/* Title - Tighter line spacing */}
-        <h1 className="text-4xl sm:text-5xl md:text-7xl font-light text-black font-poppins leading-[1.1] sm:leading-[1]">
-          Develop the People Who{" "}
+        {/* Title - Responsive text sizing */}
+        <h1 className="text-4xl sm:text-5xl md:text-7xl font-light text-black font-poppins leading-[1] sm:leading-[1]">
+          Service and{" "}
           <span className="font-playfair italic font-semibold sm:inline">
-            power{" "}
+            Space
           </span>
-          your business
+          {" "}Design
         </h1>
-
-        {/* Description - Better mobile readability */}
-        <p className="max-w-lg mx-auto sm:mt-6 text-base sm:text-lg text-gray-700 leading-relaxed px-2 sm:px-0">
-          Targeted training solutions designed for measurable impact.
-        </p>
 
       </div>
     </section>
