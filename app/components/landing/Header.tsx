@@ -45,7 +45,7 @@ export default function Header() {
 
   return (
     <header className="w-full flex justify-center fixed top-13 left-1/2 -translate-x-1/2 z-50 px-4">
-      <div className="w-[88%] max-w-8xl bg-[#0a0a0a] rounded-3xl px-4 sm:px-6 py-2 flex items-center justify-between shadow-lg">
+      <div className="w-[95%] sm:w-[92%] md:w-[90%] lg:w-[86.5%] max-w-8xl bg-[#0a0a0a] rounded-3xl px-4 sm:px-6 py-2 flex items-center justify-between shadow-lg">
         
         {/* STEP 4: Logo Section */}
         <Link href="/" className="flex items-center focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg" aria-label="CCA Connect">

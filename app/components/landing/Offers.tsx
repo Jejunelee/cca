@@ -49,7 +49,7 @@ export default function Offers() {
         <div className="absolute bottom-20 right-0 w-32 sm:w-48 md:w-64 lg:w-96 xl:w-124 h-32 sm:h-48 md:h-64 lg:h-96 xl:h-124 bg-[#f3f3f3]/40 sm:bg-[#f3f3f3]/60 rounded-full blur-xl sm:blur-2xl md:blur-3xl opacity-50 sm:opacity-100" />
       </div>
 
-      <div className="max-w-8xl w-full mx-auto relative z-10">
+      <div className="w-[96.2%] max-w-8xl mx-auto relative z-10">
         
         {/* Heading with responsive sizing and mobile centering */}
         <div className="mb-8 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 text-center md:text-left">

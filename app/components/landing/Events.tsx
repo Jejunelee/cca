@@ -25,7 +25,7 @@ const events = [
 export default function Events() {
   return (
     <section className="w-full bg-[#f5f5f5] py-12 sm:py-16 md:py-20 lg:py-24 xl:py-28 px-3 sm:px-4 md:px-5 lg:px-6">
-      <div className="w-[95%] sm:w-[92%] md:w-[90%] lg:w-[88%] max-w-8xl mx-auto">
+      <div className="w-[93%] sm:w-[92%] md:w-[90%] lg:w-[88.8%] max-w-8xl mx-auto">
         {/* Title with subtle underline accent - responsive sizing */}
         <div className="mb-8 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 text-center sm:text-left">
           <h2 className={`font-playfair italic text-black text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-light tracking-tight leading-tight`}>

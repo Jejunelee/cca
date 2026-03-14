@@ -63,18 +63,56 @@ const images = [
 export default function PreviousEvents() {
   const [index, setIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [direction, setDirection] = useState<'left' | 'right' | null>(null);
+  const [nextImageIndex, setNextImageIndex] = useState(0);
+  const [showCaption, setShowCaption] = useState(true);
+  const [nextCaption, setNextCaption] = useState("");
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const prev = () => {
-    setIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    if (isTransitioning) return;
+    const newIndex = index === 0 ? images.length - 1 : index - 1;
+    setDirection('left');
+    setNextImageIndex(newIndex);
+    setNextCaption(images[newIndex].caption);
+    setShowCaption(false);
+    setIsTransitioning(true);
   };
 
   const next = () => {
-    setIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+    if (isTransitioning) return;
+    const newIndex = index === images.length - 1 ? 0 : index + 1;
+    setDirection('right');
+    setNextImageIndex(newIndex);
+    setNextCaption(images[newIndex].caption);
+    setShowCaption(false);
+    setIsTransitioning(true);
   };
+
+  // Handle transition end and show caption with delay
+  useEffect(() => {
+    if (isTransitioning) {
+      // First, wait for image transition to complete (500ms)
+      const imageTimer = setTimeout(() => {
+        setIndex(nextImageIndex);
+        
+        // Then show caption after an additional delay (200ms)
+        const captionTimer = setTimeout(() => {
+          setShowCaption(true);
+          setIsTransitioning(false);
+          setDirection(null);
+        }, 200);
+        
+        return () => clearTimeout(captionTimer);
+      }, 500); // Match this with transition duration
+      
+      return () => clearTimeout(imageTimer);
+    }
+  }, [isTransitioning, nextImageIndex]);
 
   // Handle keyboard navigation
   useEffect(() => {
@@ -88,7 +126,7 @@ export default function PreviousEvents() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [index, isTransitioning]);
 
   // Optional: Auto-advance slides every 5 seconds
   useEffect(() => {
@@ -97,28 +135,111 @@ export default function PreviousEvents() {
     }, 5000);
     
     return () => clearInterval(timer);
-  }, []);
+  }, [index, isTransitioning]);
+
+  // Get transition classes based on direction
+  const getTransitionClasses = (imageIndex: number) => {
+    if (!isTransitioning) {
+      return imageIndex === index ? 'opacity-100 scale-100' : 'opacity-0 scale-95';
+    }
+    
+    if (imageIndex === index) {
+      // Current image - exit animation
+      return direction === 'right'
+        ? 'opacity-0 -translate-x-full scale-95 transition-all duration-500 ease-in-out'
+        : 'opacity-0 translate-x-full scale-95 transition-all duration-500 ease-in-out';
+    }
+    
+    if (imageIndex === nextImageIndex) {
+      // Next image - enter animation
+      return direction === 'right'
+        ? 'opacity-100 translate-x-0 scale-100 transition-all duration-500 ease-in-out'
+        : 'opacity-100 translate-x-0 scale-100 transition-all duration-500 ease-in-out';
+    }
+    
+    return 'opacity-0';
+  };
+
+  // Get initial position for entering images
+  const getInitialPosition = (imageIndex: number) => {
+    if (isTransitioning && imageIndex === nextImageIndex) {
+      return direction === 'right'
+        ? 'translate-x-full opacity-0 scale-95'
+        : '-translate-x-full opacity-0 scale-95';
+    }
+    return '';
+  };
+
+  // Caption animation classes
+  const getCaptionClasses = () => {
+    if (isTransitioning) {
+      return 'opacity-0 translate-y-4 scale-95';
+    }
+    return showCaption 
+      ? 'opacity-100 translate-y-0 scale-100 transition-all duration-300 ease-out delay-600' 
+      : 'opacity-0 translate-y-4 scale-95';
+  };
+
+  // Counter animation classes
+  const getCounterClasses = () => {
+    if (isTransitioning) {
+      return 'opacity-0 -translate-x-4 scale-95';
+    }
+    return showCaption 
+      ? 'opacity-100 translate-x-0 scale-100 transition-all duration-300 ease-out delay-300' 
+      : 'opacity-0 -translate-x-4 scale-95';
+  };
 
   return (
     <section className="w-full bg-[#f4f4f4] py-8 sm:py-10 md:py-12 flex justify-center">
-      <div className="w-[95%] sm:w-[92%] md:w-[90%] lg:w-[87%] max-w-8xl mx-auto">
+      <div className="w-[88%] sm:w-[92%] md:w-[90%] lg:w-[86.5%] max-w-8xl mx-auto">
 
         {/* Image Container with responsive height and touch optimization */}
         <div className="relative w-full h-[300px] xs:h-[350px] sm:h-[450px] md:h-[550px] lg:h-[650px] xl:h-[720px] overflow-hidden rounded-lg sm:rounded-xl lg:rounded-2xl shadow-lg lg:shadow-xl">
           
-          <Image
-            src={images[index].src}
-            alt="Previous Event"
-            fill
-            className="object-cover transition-opacity duration-500"
-            priority
-            sizes="(max-width: 480px) 100vw, (max-width: 640px) 95vw, (max-width: 768px) 90vw, (max-width: 1024px) 85vw, 87vw"
-          />
+          {/* Current Image */}
+          <div className={`absolute inset-0 transition-all duration-500 ease-in-out ${
+            isTransitioning && direction === 'right' 
+              ? '-translate-x-full opacity-0 scale-95' 
+              : isTransitioning && direction === 'left'
+              ? 'translate-x-full opacity-0 scale-95'
+              : 'translate-x-0 opacity-100 scale-100'
+          }`}>
+            <Image
+              src={images[index].src}
+              alt="Previous Event"
+              fill
+              className="object-cover"
+              priority
+              sizes="(max-width: 480px) 100vw, (max-width: 640px) 95vw, (max-width: 768px) 90vw, (max-width: 1024px) 85vw, 87vw"
+            />
+          </div>
+
+          {/* Next Image (for smooth transition) */}
+          {isTransitioning && (
+            <div className={`absolute inset-0 transition-all duration-500 ease-in-out ${
+              direction === 'right' 
+                ? 'translate-x-0 opacity-100 scale-100' 
+                : 'translate-x-0 opacity-100 scale-100'
+            } ${getInitialPosition(nextImageIndex)}`}>
+              <Image
+                src={images[nextImageIndex].src}
+                alt="Next Event"
+                fill
+                className="object-cover"
+                priority
+                sizes="(max-width: 480px) 100vw, (max-width: 640px) 95vw, (max-width: 768px) 90vw, (max-width: 1024px) 85vw, 87vw"
+              />
+            </div>
+          )}
 
           {/* Left Arrow - responsive sizing and positioning */}
           <button
             onClick={prev}
-            className="absolute left-2 sm:left-3 md:left-4 lg:left-6 top-1/2 -translate-y-1/2 text-[#225475] bg-white/90 backdrop-blur-sm rounded-full p-1.5 sm:p-2 md:p-2.5 lg:p-3 shadow-md sm:shadow-lg hover:scale-105 active:scale-95 transition-all hover:bg-white touch-manipulation z-10"
+            disabled={isTransitioning}
+            className={`absolute left-2 sm:left-3 md:left-4 lg:left-6 top-1/2 -translate-y-1/2 text-[#225475] bg-white/90 backdrop-blur-sm rounded-full p-1.5 sm:p-2 md:p-2.5 lg:p-3 shadow-md sm:shadow-lg hover:scale-105 active:scale-95 transition-all hover:bg-white touch-manipulation z-20 ${
+              isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
             aria-label="Previous event"
           >
             <ChevronLeft size={mounted ? (window.innerWidth < 480 ? 16 : window.innerWidth < 640 ? 18 : window.innerWidth < 768 ? 20 : 24) : 20} />
@@ -127,21 +248,24 @@ export default function PreviousEvents() {
           {/* Right Arrow - responsive sizing and positioning */}
           <button
             onClick={next}
-            className="absolute right-2 sm:right-3 md:right-4 lg:right-6 top-1/2 -translate-y-1/2 text-[#225475] bg-white/90 backdrop-blur-sm rounded-full p-1.5 sm:p-2 md:p-2.5 lg:p-3 shadow-md sm:shadow-lg hover:scale-105 active:scale-95 transition-all hover:bg-white touch-manipulation z-10"
+            disabled={isTransitioning}
+            className={`absolute right-2 sm:right-3 md:right-4 lg:right-6 top-1/2 -translate-y-1/2 text-[#225475] bg-white/90 backdrop-blur-sm rounded-full p-1.5 sm:p-2 md:p-2.5 lg:p-3 shadow-md sm:shadow-lg hover:scale-105 active:scale-95 transition-all hover:bg-white touch-manipulation z-20 ${
+              isTransitioning ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
             aria-label="Next event"
           >
             <ChevronRight size={mounted ? (window.innerWidth < 480 ? 16 : window.innerWidth < 640 ? 18 : window.innerWidth < 768 ? 20 : 24) : 20} />
           </button>
 
-          {/* Caption - responsive positioning and sizing */}
-          <div className="absolute bottom-3 sm:bottom-4 md:bottom-5 lg:bottom-6 right-2 sm:right-3 md:right-4 lg:right-6 text-white text-right whitespace-pre-line bg-black/60 backdrop-blur-sm px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 rounded-md sm:rounded-lg z-10 max-w-[80%] sm:max-w-[70%] md:max-w-[60%] lg:max-w-[50%]">
-            <p className="text-[10px] xs:text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-poppins tracking-wide leading-tight">
+          {/* Caption - responsive positioning and sizing with delayed entrance */}
+          <div className={`absolute bottom-3 sm:bottom-4 md:bottom-5 lg:bottom-6 right-2 sm:right-3 md:right-4 lg:right-6 text-white text-right whitespace-pre-line bg-black/60 backdrop-blur-sm px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 rounded-md sm:rounded-lg z-10 max-w-[80%] sm:max-w-[70%] md:max-w-[60%] lg:max-w-[50%] ${getCaptionClasses()}`}>
+            <p className="text-[15px] xs:text-lg sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl font-poppins tracking-wide leading-tight">
               {images[index].caption}
             </p>
           </div>
 
-          {/* Image Counter - responsive positioning and sizing */}
-          <div className="absolute top-2 sm:top-3 md:top-4 lg:top-6 left-2 sm:left-3 md:left-4 lg:left-6 bg-black/60 text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] xs:text-xs sm:text-sm md:text-base backdrop-blur-sm z-10">
+          {/* Image Counter - responsive positioning and sizing with delayed entrance */}
+          <div className={`absolute top-2 sm:top-3 md:top-4 lg:top-6 left-2 sm:left-3 md:left-4 lg:left-6 bg-black/60 text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] xs:text-xs sm:text-sm md:text-base backdrop-blur-sm z-10 ${getCounterClasses()}`}>
             <span className="font-medium">{index + 1}</span> / {images.length}
           </div>
 
@@ -154,7 +278,7 @@ export default function PreviousEvents() {
         <div className="bg-black py-4 sm:py-5 md:py-6 lg:py-8 xl:py-10 px-3 sm:px-4 md:px-6 lg:px-8 mt-3 sm:mt-4 md:mt-5 lg:mt-6 rounded-lg sm:rounded-xl">
           <h2 className="font-poppins text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl text-[#AFCFE4] font-light text-center leading-tight">
             Our previous{" "}
-            <span className="text-[#AFCFE4] italic font-playfair block sm:inline mt-1 sm:mt-0">
+            <span className="text-[#AFCFE4] italic font-playfair sm:inline mt-1 sm:mt-0">
               Events
             </span>
           </h2>
@@ -170,10 +294,11 @@ export default function PreviousEvents() {
           {images.map((_, i) => (
             <button
               key={i}
-              onClick={() => setIndex(i)}
+              onClick={() => !isTransitioning && setIndex(i)}
+              disabled={isTransitioning}
               className={`w-2 h-2 rounded-full transition-all ${
                 i === index ? 'bg-[#225475] w-4' : 'bg-gray-400'
-              }`}
+              } ${isTransitioning ? 'opacity-50 cursor-not-allowed' : ''}`}
               aria-label={`Go to event ${i + 1}`}
             />
           ))}

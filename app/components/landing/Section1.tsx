@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, ArrowLeft, Maximize2, Volume2, VolumeX, X } from "lucide-react";
+import { ArrowRight, ArrowLeft, Maximize2, Volume2, VolumeX, X, Play } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
 export default function Section1() {
@@ -15,19 +15,20 @@ export default function Section1() {
   const [mounted, setMounted] = useState(false);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [playingVideoIndex, setPlayingVideoIndex] = useState<number | null>(null);
+  const [fullscreenActive, setFullscreenActive] = useState(false);
 
   const videos = [
     {
       src: "/landing/videos/hapag.mp4",
-      alt: "Hospitality training"
+      alt: "Chef Nav & Chev Thirdy - Hapag"
     },
     {
       src: "/landing/videos/ryan.mp4",
-      alt: "Hospitality speaker"
+      alt: "Ryan K. Cruz - Ramen Yushoken, Mendokoro Ramenba, Marudori Ramenba, Kazunori"
     },
     {
       src: "/landing/videos/isabel.mp4",
-      alt: "Hospitality service"
+      alt: "Isabel Lozano - Decorum by MIL, Design & Engineering for Customer Experience"
     },
   ];
 
@@ -175,70 +176,116 @@ export default function Section1() {
   };
 
   const resumeAutoplay = () => {
-    if (!animationRef.current && playingVideoIndex === null) {
+    if (!animationRef.current && playingVideoIndex === null && !fullscreenActive) {
       startTimeRef.current = null;
       animationRef.current = requestAnimationFrame(animate);
     }
   };
 
-  // Handle video click to play in fullscreen
-  const playVideoFullscreen = async (index: number) => {
+  // Handle video play/pause with audio
+  const toggleVideoPlayback = (index: number) => {
     const video = videoRefs.current[index];
     if (!video) return;
     
-    // Pause carousel animation
-    pauseAutoplay();
+    // If this video is currently playing
+    if (playingVideoIndex === index) {
+      video.pause();
+      setPlayingVideoIndex(null);
+      // Resume carousel autoplay
+      if (!animationRef.current && !fullscreenActive) {
+        startTimeRef.current = null;
+        animationRef.current = requestAnimationFrame(animate);
+      }
+    } else {
+      // Pause any other playing video
+      if (playingVideoIndex !== null) {
+        const currentVideo = videoRefs.current[playingVideoIndex];
+        if (currentVideo) {
+          currentVideo.pause();
+          currentVideo.currentTime = 0;
+        }
+      }
+      
+      // Pause carousel animation
+      pauseAutoplay();
+      
+      // Play new video with audio
+      video.play().catch(error => {
+        console.log("Playback failed:", error);
+      });
+      setPlayingVideoIndex(index);
+    }
+  };
+
+  // Handle fullscreen toggle
+  const toggleFullscreen = async (index: number) => {
+    const video = videoRefs.current[index];
+    if (!video) return;
     
     try {
-      // Set video attributes for better fullscreen handling
-      video.style.objectFit = "contain"; // This ensures original aspect ratio is preserved
-      
-      // Request fullscreen on the video element
-      await video.requestFullscreen();
-      
-      // Play the video with audio
-      await video.play();
-      setPlayingVideoIndex(index);
-      
-      // Add event listener for when fullscreen exits
-      const onFullscreenChange = () => {
-        if (!document.fullscreenElement) {
-          video.pause();
-          video.currentTime = 0;
-          video.style.objectFit = "cover"; // Reset to cover for carousel
-          setPlayingVideoIndex(null);
-          // Resume carousel autoplay
-          resumeAutoplay();
-          // Remove event listener
-          document.removeEventListener('fullscreenchange', onFullscreenChange);
+      if (!document.fullscreenElement) {
+        // Enter fullscreen
+        setFullscreenActive(true);
+        pauseAutoplay();
+        
+        // Store current playing state
+        const wasPlaying = playingVideoIndex === index;
+        
+        // Set to contain for fullscreen to preserve original aspect ratio
+        video.style.objectFit = "contain";
+        
+        // Request fullscreen
+        await video.requestFullscreen();
+        
+        // Make sure video continues playing if it was playing
+        if (wasPlaying && video.paused) {
+          await video.play();
         }
-      };
-      
-      document.addEventListener('fullscreenchange', onFullscreenChange);
-      
+      } else {
+        // Exit fullscreen
+        await document.exitFullscreen();
+        setFullscreenActive(false);
+        video.style.objectFit = "cover";
+        
+        // Resume autoplay if no video is playing
+        if (playingVideoIndex === null) {
+          resumeAutoplay();
+        }
+      }
     } catch (error) {
-      console.log("Fullscreen playback failed:", error);
-      // If fullscreen fails, reset object fit
+      console.log("Fullscreen error:", error);
+      setFullscreenActive(false);
       video.style.objectFit = "cover";
     }
   };
 
-  // Handle fullscreen toggle for already playing video
-  const toggleFullscreen = (index: number) => {
-    const video = videoRefs.current[index];
-    if (!video) return;
-    
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    } else {
-      video.style.objectFit = "contain";
-      video.requestFullscreen();
-    }
-  };
+  // Listen for fullscreen change events
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        setFullscreenActive(false);
+        // Reset object-fit for all videos
+        videoRefs.current.forEach(video => {
+          if (video) {
+            video.style.objectFit = "cover";
+          }
+        });
+        // Resume autoplay if no video is playing
+        if (playingVideoIndex === null) {
+          resumeAutoplay();
+        }
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, [playingVideoIndex]);
 
   return (
     <section className="w-full bg-[#f3f3f3] py-8 sm:py-10 md:py-12 lg:py-6 min-h-[80vh] sm:min-h-[85vh] md:min-h-[90vh] lg:min-h-[100vh] flex items-center">
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="w-[98.6%] max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 lg:gap-16 xl:gap-24 items-center">
           
           {/* LEFT TEXT - Responsive padding and sizing */}
@@ -308,7 +355,7 @@ export default function Section1() {
 
               {/* Video Controls Hint */}
               <div className="absolute top-3 right-3 z-30 opacity-70 bg-black/50 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm hidden sm:block">
-                Click video to play fullscreen
+                Click video to play/pause
               </div>
 
               {/* Slide indicators for mobile */}
@@ -356,48 +403,58 @@ export default function Section1() {
                       loop
                       playsInline
                       preload="metadata"
-                      onClick={() => playVideoFullscreen(index)}
+                      onClick={() => toggleVideoPlayback(index)}
                     />
                     
                     {/* Video Controls Overlay */}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300">
-                      {/* Top controls - only show fullscreen button when video is playing in carousel */}
-                      {playingVideoIndex === index && !document.fullscreenElement && (
-                        <div className="absolute top-2 right-2 flex gap-2">
+                      {/* Top controls - fullscreen button (only shows when video is playing) */}
+                      {playingVideoIndex === index && (
+                        <div className="absolute top-2 right-2 flex gap-2 z-40">
                           <button
                             onClick={(e) => {
+                              e.preventDefault();
                               e.stopPropagation();
+                              console.log("Fullscreen button clicked for index:", index);
                               toggleFullscreen(index);
                             }}
-                            className="bg-black/60 hover:bg-black/80 text-white rounded-full p-1.5 sm:p-2 backdrop-blur-sm"
+                            className="bg-black/60 hover:bg-black/80 text-white rounded-full p-2 sm:p-2.5 backdrop-blur-sm transition-all hover:scale-110 active:scale-95"
                             aria-label="Fullscreen"
                           >
-                            <Maximize2 size={mounted ? (window.innerWidth < 480 ? 14 : 16) : 16} />
+                            <Maximize2 size={mounted ? (window.innerWidth < 480 ? 16 : 18) : 18} />
                           </button>
                         </div>
                       )}
 
-                      {/* Center play button with fullscreen icon */}
+                      {/* Center play/pause button */}
                       <div className="absolute inset-0 flex items-center justify-center">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            playVideoFullscreen(index);
+                            toggleVideoPlayback(index);
                           }}
-                          className="bg-white/90 hover:bg-white text-[#225475] rounded-full p-3 sm:p-4 md:p-5 transform scale-0 group-hover:scale-100 transition-all duration-300 shadow-lg"
-                          aria-label="Play fullscreen"
+                          className="bg-white/90 hover:bg-white text-[#225475] rounded-full p-2 sm:p-3 md:p-4 transform scale-0 group-hover:scale-100 transition-all duration-300 shadow-lg hover:shadow-xl z-30"
+                          aria-label={playingVideoIndex === index ? "Pause" : "Play"}
                         >
-                          <svg className="w-5 h-5 sm:w-7 sm:h-7 md:w-9 md:h-9" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z"/>
-                          </svg>
+                          {playingVideoIndex === index ? (
+                            <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                            </svg>
+                          ) : (
+                            <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                          )}
                         </button>
                       </div>
 
-                      {/* Fullscreen indicator */}
-                      <div className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Maximize2 size={12} />
-                        <span>Click for fullscreen</span>
-                      </div>
+                      {/* Bottom indicator for playing status */}
+                      {playingVideoIndex === index && (
+                        <div className="absolute bottom-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1 z-30">
+                          <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+                          Playing with audio
+                        </div>
+                      )}
                     </div>
                     
                     {/* Optional caption */}
