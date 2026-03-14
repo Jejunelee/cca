@@ -9,7 +9,7 @@ export default function ExpertsPage() {
     <main className="w-full">
       {/* Kerwin Fuentanilla - Left aligned */}
       <section className="w-full bg-white py-12 md:py-16 lg:py-24 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
           {/* Left Column - Image */}
           <div className="relative flex justify-center lg:justify-end order-1">
             <div className="drop-shadow-xl relative w-full max-w-[400px] sm:max-w-[440px] rounded-2xl overflow-hidden">
@@ -86,7 +86,7 @@ export default function ExpertsPage() {
 
       {/* Miguel Lorino - Right aligned */}
       <section className="w-full bg-white py-12 md:py-16 lg:py-24 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
           {/* Left Column - Content */}
           <div className="max-w-xl mx-auto lg:mx-0 order-2 lg:order-1">
             <h2 className="text-3xl sm:text-4xl font-semibold text-black mb-2 text-center lg:text-left">
@@ -163,7 +163,7 @@ export default function ExpertsPage() {
 
       {/* Cedric Mendoza - Left aligned */}
       <section className="w-full bg-white py-12 md:py-16 lg:py-24 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
           {/* Left Column - Image */}
           <div className="relative flex justify-center lg:justify-end order-1">
             <div className="drop-shadow-xl relative w-full max-w-[400px] sm:max-w-[440px] rounded-2xl overflow-hidden">

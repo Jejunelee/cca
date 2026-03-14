@@ -27,7 +27,7 @@ export default function ExpertsTeam() {
       <div className="max-w-7xl mx-auto w-full">
 
         {/* Title with responsive sizing and centering */}
-        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light mb-10 sm:mb-12 md:mb-14 lg:mb-16 text-black text-center sm:text-left leading-tight">
+        <h2 className="font-poppins text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light mb-10 sm:mb-12 md:mb-14 lg:mb-16 text-black text-center sm:text-left leading-tight">
           The people who make it{" "}
           <span className={`${playfair.className} sm:inline mt-1 sm:mt-0`}>
             happen

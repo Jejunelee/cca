@@ -70,7 +70,7 @@ export default function Team() {
         </div>
 
         {/* Tagline */}
-        <div className="font-poppins text-center max-w-3xl mx-auto text-black px-2 sm:px-4">
+        <div className="font-poppins text-center max-w-6xl mx-auto text-black px-2 sm:px-4">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-light mb-4 sm:mb-5 md:mb-6 leading-tight">
             We are more than{" "}
             <span className={playfair.className}>

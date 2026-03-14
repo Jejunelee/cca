@@ -79,7 +79,7 @@ export default function Header() {
           </ul>
           
           {/* Desktop CTA Button */}
-          <Link href="/JoinUs" className="bg-[#A7C8E5] text-black px-10 py-2 rounded-2xl text-sm lg:text-base font-medium hover:bg-[#b8d4ef] transition-colors focus:outline-none focus:ring-2 focus:ring-[#A7C8E5] focus:ring-offset-2 focus:ring-offset-black">
+          <Link href="/JoinUs" className="bg-[#AFCFE4] text-black px-10 py-2 rounded-2xl text-sm lg:text-base font-medium hover:bg-[#b8d4ef] transition-colors focus:outline-none focus:ring-2 focus:ring-[#A7C8E5] focus:ring-offset-2 focus:ring-offset-black">
             Join Us
           </Link>
         </nav>

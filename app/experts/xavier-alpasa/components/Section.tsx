@@ -9,7 +9,7 @@ export default function ExpertProfile() {
   
   return (
     <section className="w-full bg-white py-12 md:py-16 lg:py-24 px-4 sm:px-6">
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
         {/* Left Column - Image */}
         <div className="relative flex justify-center lg:justify-end order-1">
           <div className="drop-shadow-xl relative w-full max-w-[400px] sm:max-w-[440px] rounded-2xl overflow-hidden">

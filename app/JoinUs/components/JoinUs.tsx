@@ -14,7 +14,7 @@ export default function JoinUs() {
     note: ""
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -66,22 +66,30 @@ export default function JoinUs() {
             <div className="space-y-6">
               <h3 className="text-xl font-semibold text-gray-800 mb-4">Your Interest</h3>
               
-              {/* Interest */}
+              {/* Interest - Changed to Dropdown */}
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-gray-700 uppercase tracking-wide">
                   What are you interested in? <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <FileText className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                  <input
-                    type="text"
+                  <select
                     name="interest"
                     value={formData.interest}
                     onChange={handleChange}
-                    placeholder="e.g., Web Development, Data Science, Design"
-                    className="w-full h-14 bg-gray-50 pl-12 pr-4 rounded-xl border border-gray-200 focus:border-[#AFCFE4] focus:ring-2 focus:ring-[#AFCFE4]/20 outline-none transition-all text-gray-900"
+                    className="w-full h-14 bg-gray-50 pl-12 pr-4 rounded-xl border border-gray-200 focus:border-[#AFCFE4] focus:ring-2 focus:ring-[#AFCFE4]/20 outline-none transition-all text-gray-900 appearance-none cursor-pointer"
                     required
-                  />
+                  >
+                    <option value="" disabled>Select an option</option>
+                    <option value="Want to be a Consultant">Want to be a Consultant</option>
+                    <option value="Want to Consult a Professional">Want to Consult a Professional</option>
+                  </select>
+                  {/* Custom dropdown arrow */}
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
                 </div>
               </div>
 
@@ -218,10 +226,11 @@ export default function JoinUs() {
             ) : (
               <button
                 type="submit"
-                className="flex-1 group flex items-center justify-between bg-[#AFCFE4] hover:bg-[#9fb8cc] px-6 py-5 rounded-xl font-semibold text-gray-800 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
+                className="flex-1 group flex flex-col items-center justify-center bg-[#AFCFE4] hover:bg-[#9fb8cc] px-6 py-4 rounded-xl font-semibold text-gray-800 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 relative"
               >
-                <span className="text-lg">Submit and get my free training material</span>
-                <ArrowRight size={24} className="group-hover:translate-x-1 transition-transform" />
+                <span className="text-lg">Submit</span>
+                <span className="text-xs font-thin text-gray-600">You will also receive free training material</span>
+                <ArrowRight size={24} className="absolute right-6 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
               </button>
             )}
           </div>
