@@ -69,19 +69,19 @@ export default function Section1() {
         <div className="flex flex-col md:flex-row gap-6 sm:gap-8 md:gap-10 lg:gap-14 xl:gap-16 items-center md:items-start">
           
           {/* Text Section - Better mobile typography */}
-          <div className="w-full md:flex-[3] text-center md:text-left">
-            <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light mb-4 sm:mb-5 md:mb-6 font-poppins leading-tight">
+          <div className="w-full md:flex-[6] text-center md:text-left">
+            <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-[25px] lg:text-[35px] xl:text-[45px] 2xl:text-[50px] font-light mb-4 sm:mb-5 md:mb-6 font-poppins leading-tight">
               Strengths Assessment{" "}
               <span className="font-playfair italic block sm:inline mt-1 sm:mt-0 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                 Workshop
               </span>
             </h2>
 
-            <p className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 leading-relaxed max-w-6xl mx-auto md:mx-0 px-2 xs:px-0">
+            <p className="text-sm xs:text-base sm:text-lg md:text-[15px] lg:text-[16px] xl:text-[18px] 2xl:text-[22px] text-gray-300 leading-relaxed max-w-6xl mx-auto md:mx-0 px-2 xs:px-0">
               Discover your team's natural talents with the Gallup
-              CliftonStrengths® assessment. This workshop helps <br />
+              CliftonStrengths® assessment. This workshop helps
               participants leverage their top strengths to improve collaboration,
-              leadership, and performance. Ideal <br /> for leaders and growing
+              leadership, and performance. Ideal for leaders and growing
               teams, it builds more engaged, high-performing workplaces.
             </p>
             
