@@ -66,28 +66,28 @@ const Announcement: React.FC<AnnouncementProps> = ({
 
   const variants = {
     info: {
-      bg: 'bg-blue-50',
-      text: 'text-blue-800',
-      link: 'text-blue-600 hover:text-blue-800',
-      border: 'border-blue-100'
+      bg: 'bg-[#AFCFE4]',
+      text: 'text-black',
+      link: 'text-black hover:text-indigo-800',
+      border: 'border-[#AFCFE4]'
     },
     success: {
-      bg: 'bg-green-50',
-      text: 'text-green-800',
-      link: 'text-green-600 hover:text-green-800',
-      border: 'border-green-100'
+      bg: 'bg-[#AFCFE4]',
+      text: 'text-black',
+      link: 'text-black hover:text-indigo-800',
+      border: 'border-[#AFCFE4]'
     },
     warning: {
-      bg: 'bg-amber-50',
-      text: 'text-amber-800',
-      link: 'text-amber-600 hover:text-amber-800',
-      border: 'border-amber-100'
+      bg: 'bg-[#AFCFE4]',
+      text: 'text-black',
+      link: 'text-black hover:text-indigo-800',
+      border: 'border-[#AFCFE4]'
     },
     promo: {
-      bg: 'bg-gradient-to-r from-[#1A1934] to-[#2D2A4A]',
-      text: 'text-white',
-      link: 'text-white hover:text-indigo-200',
-      border: 'border-[#2D2A4A]'
+      bg: 'bg-[#AFCFE4]',
+      text: 'text-black',
+      link: 'text-black hover:text-indigo-800',
+      border: 'border-[#AFCFE4]'
     }
   };
 

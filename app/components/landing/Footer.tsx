@@ -2,19 +2,46 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
+  const [status, setStatus] = useState("idle"); // idle, loading, success, error
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Your Google Apps Script URL
+  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyoykpR2xw0OG-Pa6yB1ypOZxY_1pbpDpXarb4JfDLAk1qJi-_R4prfuPaInl0TIUEJ/exec';
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      // Handle newsletter signup logic here
-      setSubscribed(true);
+    
+    if (!email) return;
+    
+    setStatus("loading");
+
+    try {
+      // Send to Google Sheets
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({ email }).toString()
+      });
+
+      setStatus("success");
       setEmail("");
-      setTimeout(() => setSubscribed(false), 3000);
+      
+      // Reset success message after 3 seconds
+      setTimeout(() => setStatus("idle"), 3000);
+
+    } catch (error) {
+      console.error('Newsletter signup error:', error);
+      setStatus("error");
+      
+      // Reset error message after 3 seconds
+      setTimeout(() => setStatus("idle"), 3000);
     }
   };
 
@@ -41,21 +68,35 @@ export default function Footer() {
                   className="bg-transparent outline-none text-xs sm:text-sm placeholder:text-black/60 flex-1 py-1"
                   aria-label="Email address for newsletter"
                   required
+                  disabled={status === "loading"}
                 />
                 <button 
                   type="submit"
-                  className="text-black text-lg sm:text-xl ml-2 hover:translate-x-1 transition-transform duration-200 active:translate-x-2"
+                  className="text-black text-lg sm:text-xl ml-2 hover:translate-x-1 transition-transform duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   aria-label="Subscribe to newsletter"
+                  disabled={status === "loading"}
                 >
-                  →
+                  {status === "loading" ? "..." : "→"}
                 </button>
               </div>
             </form>
             
-            {/* Success message */}
-            {subscribed && (
-              <p className="text-green-800 text-xs mt-2 animate-pulse">
+            {/* Success/Error messages */}
+            {status === "success" && (
+              <p className="text-green-800 text-xs mt-2 animate-pulse flex items-center">
+                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
                 Thanks for subscribing!
+              </p>
+            )}
+            
+            {status === "error" && (
+              <p className="text-red-800 text-xs mt-2 flex items-center">
+                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+                Something went wrong. Try again.
               </p>
             )}
             
@@ -93,25 +134,25 @@ export default function Footer() {
             <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Connect With Us</h4>
             
             <a 
-              href="mailto:hello@ccaconnect.com" 
-              className="text-xs sm:text-sm hover:underline hover:text-black/80 transition-colors duration-200 py-1"
+              href="mailto:piagtrinidad@cca-manila.edu.ph"
+              className="text-xs sm:text-sm hover:underline hover:text-black/80 transition-colors duration-200 py-1 cursor-pointer"
             >
               Email Us
             </a>
             
-            <a 
-              href="#" 
+            <Link 
+              href="/JoinUs" 
               className="text-xs sm:text-sm hover:underline hover:text-black/80 transition-colors duration-200 py-1"
             >
               Schedule a Call
-            </a>
+            </Link>
             
-            <a 
-              href="#" 
+            <Link 
+              href="/JoinUs" 
               className="text-xs sm:text-sm hover:underline hover:text-black/80 transition-colors duration-200 py-1"
             >
               Become an Expert
-            </a>
+            </Link>
 
             {/* Desktop copyright - hidden on mobile */}
             <p className="hidden md:block text-xs sm:text-sm text-black/60 mt-4 sm:mt-5 md:mt-6">
@@ -135,6 +176,9 @@ export default function Footer() {
           }
           button:active {
             transform: translateX(4px);
+          }
+          button:disabled:active {
+            transform: none;
           }
         }
       `}</style>

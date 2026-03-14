@@ -28,7 +28,7 @@ export default function Events() {
       <div className="w-[95%] sm:w-[92%] md:w-[90%] lg:w-[88%] max-w-8xl mx-auto">
         {/* Title with subtle underline accent - responsive sizing */}
         <div className="mb-8 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 text-center sm:text-left">
-          <h2 className={`${playfair.className} text-black text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-light tracking-tight leading-tight`}>
+          <h2 className={`font-playfair italic text-black text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-light tracking-tight leading-tight`}>
             Don't miss the next one...
           </h2>
         </div>

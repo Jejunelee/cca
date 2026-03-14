@@ -59,7 +59,7 @@ export default function HowItWorks() {
             <div className="w-64 h-64 bg-[#AFCFE4]/10 rounded-full blur-3xl animate-pulse" />
           </div>
           
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-poppins font-thin text-black leading-tight relative">
+          <h2 className="font-poppins text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl mb-4 font-light text-black leading-tight relative">
             How does it{" "}
             <span className={`${playfair.className} italic text-gray-800 sm:inline mt-1 sm:mt-0`}>
               work?

@@ -48,7 +48,7 @@ export default function Header() {
       <div className="w-[90%] max-w-7xl bg-[#0a0a0a] rounded-3xl px-4 sm:px-6 py-2 flex items-center justify-between shadow-lg">
         
         {/* STEP 4: Logo Section */}
-        <Link href="/" className="flex items-center focus:outline-none focus:ring-2 focus:ring-white/50" aria-label="CCA Connect">
+        <Link href="/" className="flex items-center focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg" aria-label="CCA Connect">
           <div className="flex items-center gap-2">
             <Image src="/logo.png" alt="CCA" width={614} height={361} className="h-8 w-auto object-contain" priority />
           </div>
@@ -60,17 +60,27 @@ export default function Header() {
             {NAVIGATION_LINKS.map((link) => (
               <li key={link.href}>
                 {link.external ? (
-                  <a href={link.href} target="_blank" rel="noopener noreferrer" 
-                     className="text-white text-sm lg:text-base hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg px-2 py-1 cursor-pointer">
+                  <a 
+                    href={link.href} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-white text-sm lg:text-base hover:text-white/80 transition-colors duration-200 px-2 py-1 cursor-pointer"
+                  >
                     {link.label}
                   </a>
                 ) : link.href.startsWith('#') ? (
-                  <a href={link.href} onClick={(e) => handleScroll(e, link.href.substring(1))}
-                     className="text-white text-sm lg:text-base hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg px-2 py-1 cursor-pointer">
+                  <a 
+                    href={link.href} 
+                    onClick={(e) => handleScroll(e, link.href.substring(1))}
+                    className="text-white text-sm lg:text-base hover:text-white/80 transition-colors duration-200 px-2 py-1 cursor-pointer"
+                  >
                     {link.label}
                   </a>
                 ) : (
-                  <Link href={link.href} className="text-white text-sm lg:text-base hover:text-white/80 transition-colors focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg px-2 py-1">
+                  <Link 
+                    href={link.href} 
+                    className="text-white text-sm lg:text-base hover:text-white/80 transition-colors duration-200 px-2 py-1"
+                  >
                     {link.label}
                   </Link>
                 )}
@@ -79,14 +89,21 @@ export default function Header() {
           </ul>
           
           {/* Desktop CTA Button */}
-          <Link href="/JoinUs" className="bg-[#AFCFE4] text-black px-10 py-2 rounded-2xl text-sm lg:text-base font-medium hover:bg-[#b8d4ef] transition-colors focus:outline-none focus:ring-2 focus:ring-[#A7C8E5] focus:ring-offset-2 focus:ring-offset-black">
+          <Link 
+            href="/JoinUs" 
+            className="bg-[#AFCFE4] text-black px-10 py-2 rounded-2xl text-sm lg:text-base font-medium hover:bg-[#b8d4ef] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#A7C8E5] focus:ring-offset-2 focus:ring-offset-black"
+          >
             Join Us
           </Link>
         </nav>
 
         {/* STEP 6: Mobile Menu Button */}
-        <button onClick={toggleMobileMenu} className="md:hidden text-white p-2 hover:bg-white/10 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-white/50"
-                aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"} aria-expanded={isMobileMenuOpen}>
+        <button 
+          onClick={toggleMobileMenu} 
+          className="md:hidden text-white/80 p-2 hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-lg"
+          aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"} 
+          aria-expanded={isMobileMenuOpen}
+        >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
@@ -96,24 +113,43 @@ export default function Header() {
             <nav className="flex flex-col space-y-4" aria-label="Mobile navigation">
               {NAVIGATION_LINKS.map((link) => (
                 link.external ? (
-                  <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" 
-                     className="text-white px-4 py-2 hover:bg-white/10 rounded-lg transition-colors" onClick={toggleMobileMenu}>
+                  <a 
+                    key={link.href} 
+                    href={link.href} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-white/80 px-4 py-2 hover:text-white transition-colors duration-200" 
+                    onClick={toggleMobileMenu}
+                  >
                     {link.label}
                   </a>
                 ) : link.href.startsWith('#') ? (
-                  <a key={link.href} href={link.href} onClick={(e) => { handleScroll(e, link.href.substring(1)); toggleMobileMenu(); }}
-                     className="text-white px-4 py-2 hover:bg-white/10 rounded-lg transition-colors">
+                  <a 
+                    key={link.href} 
+                    href={link.href} 
+                    onClick={(e) => { handleScroll(e, link.href.substring(1)); toggleMobileMenu(); }}
+                    className="text-white/80 px-4 py-2 hover:text-white transition-colors duration-200"
+                  >
                     {link.label}
                   </a>
                 ) : (
-                  <Link key={link.href} href={link.href} className="text-white px-4 py-2 hover:bg-white/10 rounded-lg transition-colors" onClick={toggleMobileMenu}>
+                  <Link 
+                    key={link.href} 
+                    href={link.href} 
+                    className="text-white/80 px-4 py-2 hover:text-white transition-colors duration-200" 
+                    onClick={toggleMobileMenu}
+                  >
                     {link.label}
                   </Link>
                 )
               ))}
               
               {/* Mobile CTA Button */}
-              <Link href="/login" className="bg-[#A7C8E5] text-black px-4 py-2 rounded-lg font-medium text-center hover:bg-[#b8d4ef] transition-colors mt-2" onClick={toggleMobileMenu}>
+              <Link 
+                href="/login" 
+                className="bg-[#A7C8E5] text-black px-4 py-2 rounded-lg font-medium text-center hover:bg-[#b8d4ef] transition-colors duration-200 mt-2" 
+                onClick={toggleMobileMenu}
+              >
                 Join Us
               </Link>
             </nav>
