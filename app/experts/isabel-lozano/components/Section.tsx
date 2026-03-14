@@ -25,7 +25,7 @@ export default function ExpertProfileLozano() {
             {/* Social Icons */}
             <div className="absolute top-3 right-3 sm:top-4 sm:right-4 flex gap-2">
               <a 
-                href="#" 
+                href="https://www.instagram.com/quemestriya/" 
                 className="w-8 h-8 sm:w-9 sm:h-9 bg-black rounded-full flex items-center justify-center hover:bg-opacity-80 transition-colors"
                 aria-label="Facebook"
                 target="_blank"
@@ -35,7 +35,7 @@ export default function ExpertProfileLozano() {
                 <Facebook size={18} color="white" className="hidden sm:block" />
               </a>
               <a 
-                href="#" 
+                href="https://www.instagram.com/quemestriya/" 
                 className="w-8 h-8 sm:w-9 sm:h-9 bg-black rounded-full flex items-center justify-center hover:bg-opacity-80 transition-colors"
                 aria-label="Instagram"
                 target="_blank"
