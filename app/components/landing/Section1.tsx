@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowRight, ArrowLeft } from "lucide-react";
+import { ArrowRight, ArrowLeft, Maximize2, Volume2, VolumeX } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
 export default function Section1() {
@@ -13,24 +13,22 @@ export default function Section1() {
   const startIndexRef = useRef<number>(0);
   const targetIndexRef = useRef<number>(0);
   const [mounted, setMounted] = useState(false);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const [playingVideoIndex, setPlayingVideoIndex] = useState<number | null>(null);
 
-  const images = [
+  const videos = [
     {
-      src: "/landing/section1x1.png",
+      src: "/landing/videos/hapag.mp4",
       alt: "Hospitality training"
     },
     {
-      src: "/landing/section1x2.png",
+      src: "/landing/videos/ryan.mp4",
       alt: "Hospitality speaker"
     },
     {
-      src: "/landing/section1x1.png",
+      src: "/landing/videos/isabel.mp4",
       alt: "Hospitality service"
     },
-    {
-      src: "/landing/section1x2.png",
-      alt: "Hotel staff"
-    }
   ];
 
   // Responsive slide dimensions
@@ -73,8 +71,8 @@ export default function Section1() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Duplicate images for infinite loop effect
-  const extendedImages = [...images, ...images, ...images];
+  // Duplicate videos for infinite loop effect
+  const extendedVideos = [...videos, ...videos, ...videos];
 
   // Smooth continuous animation function
   const animate = (timestamp: number) => {
@@ -109,6 +107,15 @@ export default function Section1() {
     }
     startTimeRef.current = null;
     setCurrentIndex((prevIndex) => Math.floor(prevIndex) + 1);
+    // Stop any playing video when changing slides
+    if (playingVideoIndex !== null) {
+      const video = videoRefs.current[playingVideoIndex];
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+      setPlayingVideoIndex(null);
+    }
   };
 
   const prevSlide = () => {
@@ -117,18 +124,27 @@ export default function Section1() {
     }
     startTimeRef.current = null;
     setCurrentIndex((prevIndex) => Math.floor(prevIndex) - 1);
+    // Stop any playing video when changing slides
+    if (playingVideoIndex !== null) {
+      const video = videoRefs.current[playingVideoIndex];
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+      setPlayingVideoIndex(null);
+    }
   };
 
   // Handle infinite loop reset
   useEffect(() => {
-    if (currentIndex >= images.length * 2) {
+    if (currentIndex >= videos.length * 2) {
       // Jump back to the middle set without animation
-      setCurrentIndex(images.length);
+      setCurrentIndex(videos.length);
     } else if (currentIndex < 0) {
       // Jump to the last set without animation
-      setCurrentIndex(images.length * 2 - 1);
+      setCurrentIndex(videos.length * 2 - 1);
     }
-  }, [currentIndex, images.length]);
+  }, [currentIndex, videos.length]);
 
   // Start continuous animation
   useEffect(() => {
@@ -140,6 +156,13 @@ export default function Section1() {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
+      
+      // Pause all videos on unmount
+      videoRefs.current.forEach(video => {
+        if (video) {
+          video.pause();
+        }
+      });
     };
   }, [mounted]);
 
@@ -152,9 +175,56 @@ export default function Section1() {
   };
 
   const resumeAutoplay = () => {
-    if (!animationRef.current) {
+    if (!animationRef.current && playingVideoIndex === null) {
       startTimeRef.current = null;
       animationRef.current = requestAnimationFrame(animate);
+    }
+  };
+
+  // Handle video click to play/pause with audio
+  const toggleVideoPlayback = (index: number) => {
+    const video = videoRefs.current[index];
+    if (!video) return;
+    
+    // If this video is currently playing
+    if (playingVideoIndex === index) {
+      video.pause();
+      setPlayingVideoIndex(null);
+      // Resume carousel autoplay
+      if (!animationRef.current) {
+        startTimeRef.current = null;
+        animationRef.current = requestAnimationFrame(animate);
+      }
+    } else {
+      // Pause any other playing video
+      if (playingVideoIndex !== null) {
+        const currentVideo = videoRefs.current[playingVideoIndex];
+        if (currentVideo) {
+          currentVideo.pause();
+          currentVideo.currentTime = 0;
+        }
+      }
+      
+      // Pause carousel animation
+      pauseAutoplay();
+      
+      // Play new video with audio
+      video.play().catch(error => {
+        console.log("Playback failed:", error);
+      });
+      setPlayingVideoIndex(index);
+    }
+  };
+
+  // Handle fullscreen
+  const toggleFullscreen = (index: number) => {
+    const video = videoRefs.current[index];
+    if (!video) return;
+    
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      video.requestFullscreen();
     }
   };
 
@@ -228,18 +298,23 @@ export default function Section1() {
                 <ArrowRight size={mounted ? (window.innerWidth < 480 ? 14 : window.innerWidth < 640 ? 16 : window.innerWidth < 768 ? 18 : 20) : 20} />
               </button>
 
+              {/* Video Controls Hint */}
+              <div className="absolute top-3 right-3 z-30 opacity-70 bg-black/50 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm hidden sm:block">
+                Click video to play with audio
+              </div>
+
               {/* Slide indicators for mobile */}
               <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-30 flex gap-1.5 sm:gap-2 lg:hidden">
-                {images.map((_, index) => (
+                {videos.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => {
                       pauseAutoplay();
-                      setCurrentIndex(index + images.length);
+                      setCurrentIndex(index + videos.length);
                       setTimeout(resumeAutoplay, 5000);
                     }}
                     className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all ${
-                      Math.floor(currentIndex) % images.length === index 
+                      Math.floor(currentIndex) % videos.length === index 
                         ? 'bg-[#225475] w-4 sm:w-6' 
                         : 'bg-gray-400/50'
                     }`}
@@ -248,34 +323,85 @@ export default function Section1() {
                 ))}
               </div>
 
-              {/* Carousel track - responsive gap and image dimensions */}
+              {/* Carousel track - responsive gap and video dimensions */}
               <div 
                 className="flex gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6 transition-none"
                 style={{
                   transform: mounted ? `translateX(-${currentIndex * slideWidth}px)` : 'none',
                 }}
               >
-                {extendedImages.map((image, index) => (
+                {extendedVideos.map((video, index) => (
                   <div
-                    key={`${image.src}-${index}`}
+                    key={`${video.src}-${index}`}
                     className="relative rounded-lg sm:rounded-xl overflow-hidden flex-shrink-0 group shadow-md sm:shadow-lg lg:shadow-xl"
                     style={{
                       minWidth: mounted ? `${slideWidth - (mounted && window.innerWidth < 480 ? 12 : mounted && window.innerWidth < 640 ? 16 : mounted && window.innerWidth < 768 ? 20 : mounted && window.innerWidth < 1024 ? 22 : 24)}px` : '390px',
                       height: mounted ? `${slideHeight}px` : '600px',
                     }}
                   >
-                    <Image
-                      src={image.src}
-                      alt={image.alt}
-                      fill
-                      className="object-cover transition-transform duration-500 sm:duration-700 group-hover:scale-105 sm:group-hover:scale-110"
-                      sizes="(max-width: 480px) 240px, (max-width: 640px) 280px, (max-width: 768px) 320px, (max-width: 1024px) 350px, 390px"
-                      priority={index < 6}
-                      loading={index < 6 ? "eager" : "lazy"}
+                    <video
+                      ref={el => {
+                        videoRefs.current[index] = el;
+                      }}
+                      src={video.src}
+                      className="w-full h-full object-cover cursor-pointer"
+                      loop
+                      playsInline
+                      preload="metadata"
+                      onClick={() => toggleVideoPlayback(index)}
                     />
                     
-                    {/* Optional overlay with caption - hidden on mobile */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 hidden lg:block" />
+                    {/* Video Controls Overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300">
+                      {/* Top controls */}
+                      <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleFullscreen(index);
+                          }}
+                          className="bg-black/60 hover:bg-black/80 text-white rounded-full p-1.5 sm:p-2 backdrop-blur-sm"
+                          aria-label="Fullscreen"
+                        >
+                          <Maximize2 size={mounted ? (window.innerWidth < 480 ? 14 : 16) : 16} />
+                        </button>
+                      </div>
+
+                      {/* Center play/pause button */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleVideoPlayback(index);
+                          }}
+                          className="bg-white/90 hover:bg-white text-[#225475] rounded-full p-2 sm:p-3 md:p-4 transform scale-0 group-hover:scale-100 transition-all duration-300 shadow-lg"
+                          aria-label={playingVideoIndex === index ? "Pause" : "Play"}
+                        >
+                          {playingVideoIndex === index ? (
+                            <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                            </svg>
+                          ) : (
+                            <svg className="w-4 h-4 sm:w-6 sm:h-6 md:w-8 md:h-8" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                          )}
+                        </button>
+                      </div>
+
+                      {/* Bottom indicator for playing status */}
+                      {playingVideoIndex === index && (
+                        <div className="absolute bottom-2 left-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+                          Playing with audio
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Optional caption */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 hidden lg:flex items-end p-4 pointer-events-none">
+                      <span className="text-white text-sm font-medium">{video.alt}</span>
+                    </div>
                   </div>
                 ))}
               </div>
