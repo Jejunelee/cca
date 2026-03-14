@@ -167,20 +167,30 @@ export default function Section1() {
           <div className="flex items-center justify-center h-full px-2 sm:px-4 md:px-6 lg:pl-8 xl:pl-16 2xl:pl-24 order-2 lg:order-1 mt-8 lg:mt-0">
             <div className="w-full lg:w-auto lg:min-w-[350px] xl:min-w-[450px] 2xl:min-w-[550px]">
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl 2xl:text-6xl leading-tight font-poppins text-black">
-                The{" "}
+                We support the{" "}
                 <span className="font-playfair italic">
-                  Hidden Strain
-                </span>{" "}
-                Behind Hospitality Service
+                  People{" "}
+                </span>
+                who{" "}
+                <span className="font-playfair italic">
+                  Power{" "}
+                </span>
+                Hospitality
               </h2>
-
+              <div className="w-20 sm:w-24 md:w-32 h-[2px] bg-black mt-3 sm:mt-4 mb-4 sm:mb-6"></div>
               <p className="mt-3 sm:mt-4 md:mt-5 lg:mt-6 xl:mt-8 text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl 2xl:text-2xl text-gray-700 font-jost leading-relaxed max-w-3xl">
-                Guest complaints are often people-related, employees face weekly
-                emotional exhaustion, and recognition is rare.
+              Guest complaints are often people-related. Employees face weekly emotional exhaustion, and recognition is rare.
               </p>
 
               <p className="mt-3 sm:mt-4 md:mt-5 lg:mt-6 xl:mt-8 text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl 2xl:text-2xl text-gray-700 font-jost leading-relaxed max-w-3xl">
-                The industry is feeling the pressure <br className="hidden sm:block" /> - and this is where we come in.
+                The hospitality industry is feeling the pressure—and this is where we come in. CCA Connect bridges businesses 
+                with trusted food, beverage, and hospitality experts who help address operational challenges, strengthen teams, 
+                and elevate guest experiences.
+              </p>
+              <p className="mt-3 sm:mt-4 md:mt-5 lg:mt-6 xl:mt-8 text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl 2xl:text-2xl text-gray-700 font-jost leading-relaxed max-w-3xl">
+                Beyond consultancy, we create opportunities for growth and exposure through industry events, summits, bootcamps, 
+                and team training and development programs—bringing professionals together to learn, collaborate, and move the 
+                hospitality industry forward.<br className="hidden sm:block" />
               </p>
             </div>
           </div>

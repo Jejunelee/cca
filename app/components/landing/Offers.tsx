@@ -56,7 +56,6 @@ export default function Offers() {
           <h2 className="text-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-light tracking-tight leading-tight">
             What we <span className="italic font-playfair text-black">Offer</span>
           </h2>
-          <div className="h-0.5 sm:h-1 w-12 sm:w-16 md:w-20 lg:w-24 bg-[#8fb3c9] mt-2 sm:mt-3 md:mt-4 mx-auto md:mx-0 rounded-full" />
         </div>
 
         {/* Cards with responsive grid and gaps */}

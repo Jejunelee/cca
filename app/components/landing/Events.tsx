@@ -25,13 +25,12 @@ const events = [
 export default function Events() {
   return (
     <section className="w-full bg-[#f5f5f5] py-12 sm:py-16 md:py-20 lg:py-24 xl:py-28 px-3 sm:px-4 md:px-5 lg:px-6">
-      <div className="max-w-7xl mx-auto w-full">
+      <div className="w-[95%] sm:w-[92%] md:w-[90%] lg:w-[88%] max-w-8xl mx-auto">
         {/* Title with subtle underline accent - responsive sizing */}
         <div className="mb-8 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 text-center sm:text-left">
           <h2 className={`${playfair.className} text-black text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-light tracking-tight leading-tight`}>
             Don't miss the next one...
           </h2>
-          <div className="h-0.5 sm:h-1 w-12 sm:w-16 md:w-20 lg:w-24 bg-[#8fb3c9] mt-2 sm:mt-3 md:mt-4 mx-auto md:mx-0 rounded-full" />zz
         </div>
 
         {/* Events grid - responsive gaps */}
@@ -42,7 +41,7 @@ export default function Events() {
               className="shadow-lg group bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:hover:shadow-xl rounded-lg overflow-hidden"
             >
               {/* Image with subtle border - responsive height */}
-              <div className="relative w-full h-[200px] xs:h-[220px] sm:h-[250px] md:h-[280px] lg:h-[320px] xl:h-[340px] overflow-hidden">
+              <div className="relative w-full h-[400px] xs:h-[420px] sm:h-[450px] md:h-[480px] lg:h-[520px] xl:h-[540px] overflow-hidden">
                 <Image
                   src={event.image}
                   alt={event.title}
@@ -101,12 +100,6 @@ export default function Events() {
             rel="noopener noreferrer"
             className="inline-flex items-center text-gray-600 hover:text-black transition-colors duration-300 group"
           >
-            <span className="text-sm sm:text-base md:text-lg border-b border-transparent group-hover:border-black transition-all duration-300">
-              View all events
-            </span>
-            <span className="ml-2 text-sm sm:text-base md:text-lg group-hover:translate-x-1 transition-transform duration-300">
-              →
-            </span>
           </a>
         </div>
       </div>

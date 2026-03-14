@@ -1,10 +1,16 @@
 "use client";
 
-import { ArrowRight, Calendar, Mail, User, Phone, FileText } from "lucide-react";
+import { ArrowRight, Calendar, Mail, User, Phone, FileText, ArrowLeft } from "lucide-react";
 import { useState } from "react";
 
 export default function JoinUs() {
   const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
+  
   const [formData, setFormData] = useState({
     interest: "",
     startDate: "",
@@ -19,6 +25,10 @@ export default function JoinUs() {
       ...formData,
       [e.target.name]: e.target.value
     });
+    // Clear status when user starts typing again
+    if (submitStatus.type) {
+      setSubmitStatus({ type: null, message: '' });
+    }
   };
 
   const handleNext = () => {
@@ -29,10 +39,65 @@ export default function JoinUs() {
     setStep(step - 1);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted:", formData);
+    
+    // Validate all required fields
+    if (!formData.interest || !formData.startDate || !formData.fullName || !formData.email || !formData.mobile) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please fill in all required fields'
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: '' });
+
+    try {
+      // Send data to our API endpoint
+      const response = await fetch('/api/send-mail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit inquiry');
+      }
+
+      // Success!
+      setSubmitStatus({
+        type: 'success',
+        message: data.message || 'Inquiry sent successfully! We\'ll respond within 24 hours.'
+      });
+
+      // Reset form after 3 seconds
+      setTimeout(() => {
+        setFormData({
+          interest: "",
+          startDate: "",
+          fullName: "",
+          email: "",
+          mobile: "",
+          note: ""
+        });
+        setStep(1);
+        setSubmitStatus({ type: null, message: '' });
+      }, 3000);
+
+    } catch (error: any) {
+      setSubmitStatus({
+        type: 'error',
+        message: error.message || 'Failed to send inquiry. Please try again.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const isStepValid = () => {
@@ -48,6 +113,17 @@ export default function JoinUs() {
   return (
     <section className="w-full bg-white py-24 px-6">
       <div className="max-w-3xl mx-auto">
+        
+        {/* Status Message */}
+        {submitStatus.type && (
+          <div className={`mb-6 p-4 rounded-xl text-sm ${
+            submitStatus.type === 'success' 
+              ? 'bg-green-50 text-green-800 border border-green-200' 
+              : 'bg-red-50 text-red-800 border border-red-200'
+          }`}>
+            {submitStatus.message}
+          </div>
+        )}
         
         {/* Progress indicator */}
         <div className="mb-8 flex justify-between items-center">
@@ -66,7 +142,7 @@ export default function JoinUs() {
             <div className="space-y-6">
               <h3 className="text-xl font-semibold text-gray-800 mb-4">Your Interest</h3>
               
-              {/* Interest - Changed to Dropdown */}
+              {/* Interest - Dropdown */}
               <div className="space-y-2">
                 <label className="block text-sm font-semibold text-gray-700 uppercase tracking-wide">
                   What are you interested in? <span className="text-red-500">*</span>
@@ -77,8 +153,9 @@ export default function JoinUs() {
                     name="interest"
                     value={formData.interest}
                     onChange={handleChange}
-                    className="w-full h-14 bg-gray-50 pl-12 pr-4 rounded-xl border border-gray-200 focus:border-[#AFCFE4] focus:ring-2 focus:ring-[#AFCFE4]/20 outline-none transition-all text-gray-900 appearance-none cursor-pointer"
+                    className="w-full h-14 bg-gray-50 pl-12 pr-4 rounded-xl border border-gray-200 focus:border-[#AFCFE4] focus:ring-2 focus:ring-[#AFCFE4]/20 outline-none transition-all text-gray-900 appearance-none cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
                     required
+                    disabled={isSubmitting}
                   >
                     <option value="" disabled>Select an option</option>
                     <option value="Want to be a Consultant">Want to be a Consultant</option>
@@ -105,8 +182,9 @@ export default function JoinUs() {
                     name="startDate"
                     value={formData.startDate}
                     onChange={handleChange}
-                    className="w-full h-14 bg-gray-50 pl-12 pr-4 rounded-xl border border-gray-200 focus:border-[#AFCFE4] focus:ring-2 focus:ring-[#AFCFE4]/20 outline-none transition-all text-gray-900"
+                    className="w-full h-14 bg-gray-50 pl-12 pr-4 rounded-xl border border-gray-200 focus:border-[#AFCFE4] focus:ring-2 focus:ring-[#AFCFE4]/20 outline-none transition-all text-gray-900 disabled:bg-gray-100 disabled:cursor-not-allowed"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -131,8 +209,9 @@ export default function JoinUs() {
                     value={formData.fullName}
                     onChange={handleChange}
                     placeholder="John Doe"
-                    className="w-full h-14 bg-gray-50 pl-12 pr-4 rounded-xl border border-gray-200 focus:border-[#AFCFE4] focus:ring-2 focus:ring-[#AFCFE4]/20 outline-none transition-all text-gray-900"
+                    className="w-full h-14 bg-gray-50 pl-12 pr-4 rounded-xl border border-gray-200 focus:border-[#AFCFE4] focus:ring-2 focus:ring-[#AFCFE4]/20 outline-none transition-all text-gray-900 disabled:bg-gray-100 disabled:cursor-not-allowed"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -150,8 +229,9 @@ export default function JoinUs() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="john@example.com"
-                    className="w-full h-14 bg-gray-50 pl-12 pr-4 rounded-xl border border-gray-200 focus:border-[#AFCFE4] focus:ring-2 focus:ring-[#AFCFE4]/20 outline-none transition-all text-gray-900"
+                    className="w-full h-14 bg-gray-50 pl-12 pr-4 rounded-xl border border-gray-200 focus:border-[#AFCFE4] focus:ring-2 focus:ring-[#AFCFE4]/20 outline-none transition-all text-gray-900 disabled:bg-gray-100 disabled:cursor-not-allowed"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -169,8 +249,9 @@ export default function JoinUs() {
                     value={formData.mobile}
                     onChange={handleChange}
                     placeholder="+1 (555) 000-0000"
-                    className="w-full h-14 bg-gray-50 pl-12 pr-4 rounded-xl border border-gray-200 focus:border-[#AFCFE4] focus:ring-2 focus:ring-[#AFCFE4]/20 outline-none transition-all text-gray-900"
+                    className="w-full h-14 bg-gray-50 pl-12 pr-4 rounded-xl border border-gray-200 focus:border-[#AFCFE4] focus:ring-2 focus:ring-[#AFCFE4]/20 outline-none transition-all text-gray-900 disabled:bg-gray-100 disabled:cursor-not-allowed"
                     required
+                    disabled={isSubmitting}
                   />
                 </div>
               </div>
@@ -193,7 +274,8 @@ export default function JoinUs() {
                   onChange={handleChange}
                   rows={5}
                   placeholder="Tell us anything else you'd like us to know..."
-                  className="w-full bg-gray-50 px-4 py-3 rounded-xl border border-gray-200 focus:border-[#AFCFE4] focus:ring-2 focus:ring-[#AFCFE4]/20 outline-none resize-none transition-all text-gray-900"
+                  className="w-full bg-gray-50 px-4 py-3 rounded-xl border border-gray-200 focus:border-[#AFCFE4] focus:ring-2 focus:ring-[#AFCFE4]/20 outline-none resize-none transition-all text-gray-900 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                  disabled={isSubmitting}
                 />
               </div>
             </div>
@@ -205,8 +287,10 @@ export default function JoinUs() {
               <button
                 type="button"
                 onClick={handlePrevious}
-                className="flex-1 group flex items-center justify-center bg-gray-100 hover:bg-gray-200 px-6 py-5 rounded-xl font-semibold text-gray-700 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+                disabled={isSubmitting}
+                className="flex-1 group flex items-center justify-center bg-gray-100 hover:bg-gray-200 px-6 py-5 rounded-xl font-semibold text-gray-700 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
               >
+                <ArrowLeft size={24} className="mr-2" />
                 <span className="text-lg">Previous</span>
               </button>
             )}
@@ -215,9 +299,9 @@ export default function JoinUs() {
               <button
                 type="button"
                 onClick={handleNext}
-                disabled={!isStepValid()}
+                disabled={!isStepValid() || isSubmitting}
                 className={`flex-1 group flex items-center justify-between bg-[#AFCFE4] hover:bg-[#9fb8cc] px-6 py-5 rounded-xl font-semibold text-gray-800 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ${
-                  !isStepValid() ? 'opacity-50 cursor-not-allowed hover:translate-y-0' : ''
+                  !isStepValid() || isSubmitting ? 'opacity-50 cursor-not-allowed hover:translate-y-0' : ''
                 }`}
               >
                 <span className="text-lg">Next</span>
@@ -226,21 +310,31 @@ export default function JoinUs() {
             ) : (
               <button
                 type="submit"
-                className="flex-1 group flex flex-col items-center justify-center bg-[#AFCFE4] hover:bg-[#9fb8cc] px-6 py-4 rounded-xl font-semibold text-gray-800 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 relative"
+                disabled={isSubmitting}
+                className="flex-1 group flex flex-col items-center justify-center bg-[#AFCFE4] hover:bg-[#9fb8cc] px-6 py-4 rounded-xl font-semibold text-gray-800 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 relative disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
               >
-                <span className="text-lg">Submit</span>
-                <span className="text-xs font-thin text-gray-600">You will also receive free training material</span>
-                <ArrowRight size={24} className="absolute right-6 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
+                {isSubmitting ? (
+                  <>
+                    <span className="text-lg">Sending...</span>
+                    <div className="flex items-center gap-2 mt-1">
+                      <div className="w-4 h-4 border-2 border-gray-800 border-t-transparent rounded-full animate-spin" />
+                      <span className="text-xs font-thin text-gray-600">Please wait</span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-lg">Submit</span>
+                    <span className="text-xs font-thin text-gray-600">You will also receive free training material</span>
+                    <ArrowRight size={24} className="absolute right-6 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
+                  </>
+                )}
               </button>
             )}
           </div>
 
           {/* Privacy note */}
           <p className="text-xs text-gray-500 text-center mt-4">
-            By submitting this form, you agree to our Terms of Service and Privacy Policy{" "}
-            <a href="#" className="text-[#AFCFE4] hover:underline"></a>{" "}
-            {" "}
-            <a href="#" className="text-[#AFCFE4] hover:underline"></a>
+            By submitting this form, you agree to our Terms of Service and Privacy Policy
           </p>
 
         </form>

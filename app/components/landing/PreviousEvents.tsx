@@ -12,14 +12,10 @@ const images = [
   },
   {
     src: "/landing/pevents/2.jpeg",
-    caption: "CCA CONNECT BOOTCAMP\nBRITTANY HOTEL",
+    caption: "FAMILY SUCCESSION\nBRITTANY HOTEL",
   },
   {
     src: "/landing/pevents/3.jpeg",
-    caption: "CCA CONNECT BOOTCAMP\nBRITTANY HOTEL",
-  },
-  {
-    src: "/landing/pevents/4.jpg",
     caption: "CCA CONNECT BOOTCAMP\nBRITTANY HOTEL",
   },
   {
@@ -156,9 +152,9 @@ export default function PreviousEvents() {
 
         {/* Bottom Title Bar with responsive padding and typography */}
         <div className="bg-black py-4 sm:py-5 md:py-6 lg:py-8 xl:py-10 px-3 sm:px-4 md:px-6 lg:px-8 mt-3 sm:mt-4 md:mt-5 lg:mt-6 rounded-lg sm:rounded-xl">
-          <h2 className="font-poppins text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl text-[#b9cfe0] font-light text-center leading-tight">
+          <h2 className="font-poppins text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl text-[#AFCFE4] font-light text-center leading-tight">
             Our previous{" "}
-            <span className="italic font-serif text-white block sm:inline mt-1 sm:mt-0">
+            <span className="text-[#AFCFE4] italic font-playfair block sm:inline mt-1 sm:mt-0">
               Events
             </span>
           </h2>
