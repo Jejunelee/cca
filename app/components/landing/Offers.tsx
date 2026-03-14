@@ -7,7 +7,7 @@ export default function Offers() {
   const offers = [
     {
       title: "Consultancy Services",
-      image: "/landing/offers1x.jpg",
+      image: "/landing/offers1x.png",
       description: "Strategic guidance for your business growth",
       href: "/experts"  // Internal link
     },
@@ -53,7 +53,7 @@ export default function Offers() {
         
         {/* Heading with responsive sizing and mobile centering */}
         <div className="mb-8 sm:mb-10 md:mb-12 lg:mb-14 xl:mb-16 text-center md:text-left">
-          <h2 className="text-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-light tracking-tight leading-tight">
+          <h2 className="text-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-6xl font-light tracking-tight leading-tight">
             What we <span className="italic font-playfair text-black">Offer</span>
           </h2>
         </div>
