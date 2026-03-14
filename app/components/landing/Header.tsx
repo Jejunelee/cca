@@ -146,7 +146,7 @@ export default function Header() {
               
               {/* Mobile CTA Button */}
               <Link 
-                href="/login" 
+                href="/JoinUs" 
                 className="bg-[#A7C8E5] text-black px-4 py-2 rounded-lg font-medium text-center hover:bg-[#b8d4ef] transition-colors duration-200 mt-2" 
                 onClick={toggleMobileMenu}
               >
