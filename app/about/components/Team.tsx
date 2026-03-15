@@ -23,27 +23,27 @@ const team = [
   {
     name: "Xavier Alpasa",
     role: "XAVIER ASSOCIATES",
-    image: "/about/team/xavier.png",
+    image: "/about/team/xavier1.png",
   },
   {
     name: "Isabel Lozano",
     role: "DECORUM BY MIL",
-    image: "/about/team/isabel.png",
+    image: "/about/team/isabel1.png",
   },
   {
     name: "RL Garcia",
     role: "HR HEAD OF BRITTANY HOTELS",
-    image: "/about/team/rl.png",
+    image: "/about/team/rl.jpg",
   },
   {
     name: "Bea Trinidad",
     role: "PR & MARKETING MANAGER",
-    image: "/about/team/bea.png",
+    image: "/about/team/bea.jpg",
   },
   {
     name: "Marinela Trinidad",
     role: "CEO",
-    image: "/about/team/marinela.png",
+    image: "/about/team/marinela1.png",
   },
 ];
 

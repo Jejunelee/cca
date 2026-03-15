@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 const images = [
   // 1-8: CCA CONNECT BOOTCAMP at BRITTANY HOTEL
   {
-    src: "/landing/pevents/1.png",
+    src: "/landing/pevents/1.jpg",
     caption: "CCA CONNECT BOOTCAMP\nBRITTANY HOTEL",
   },
   {

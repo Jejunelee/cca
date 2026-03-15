@@ -19,7 +19,7 @@ const services = [
   {
     title: "KITCHEN AND BAKERY TRAINING",
     image: "/experts/section1/2.jpg",
-    expertSlug: "xavier-alpasa",
+    expertSlug: null, // No expert assigned
   },
   {
     title: "CULINARY, HOSPITALITY, AND MANAGEMENT TRAINING DEVELOPMENT",

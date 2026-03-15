@@ -7,7 +7,7 @@ export default function Offers() {
   const offers = [
     {
       title: "Consultancy Services",
-      image: "/landing/offers1x.png",
+      image: "/landing/offers1x1.png",
       description: "Strategic guidance for your business growth",
       href: "/experts"  // Internal link
     },

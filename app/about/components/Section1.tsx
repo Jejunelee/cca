@@ -51,9 +51,9 @@ export default function Section1() {
         </div>
 
         {/* Right Image */}
-        <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] order-1 lg:order-2">
+        <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] order-1 lg:order-2">
           <Image
-            src="/about/section1/1.png"
+            src="/about/section1/1-1.png"
             alt="CCA Connect discussion"
             fill
             className="object-cover"
