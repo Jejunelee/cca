@@ -52,7 +52,7 @@ export default function Section1() {
             shadow-lg hover:shadow-2xl
           `}>
             <Image
-              src="/training/section1/2.png"
+              src="/training/section1/2x.jpg"
               alt="Team workshop - Collaborative learning session"
               fill
               className="object-cover transition-transform duration-700 hover:scale-105 md:hover:scale-110"
