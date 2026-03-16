@@ -31,23 +31,144 @@ export default function JoinUs() {
     }
   };
 
-  const handleNext = () => {
+  const handleNext = (e?: React.MouseEvent) => {
+    // Prevent any form submission
+    if (e) {
+      e.preventDefault();
+    }
+    
+    // Validate step 1 before proceeding to step 2
+    if (step === 1) {
+      if (!formData.interest || !formData.startDate) {
+        setSubmitStatus({
+          type: 'error',
+          message: 'Please select your interest and start date'
+        });
+        return;
+      }
+    }
+    
+    // Validate step 2 before proceeding to step 3
+    if (step === 2) {
+      if (!formData.fullName || !formData.email || !formData.mobile) {
+        setSubmitStatus({
+          type: 'error',
+          message: 'Please fill in all personal information fields'
+        });
+        return;
+      }
+      
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        setSubmitStatus({
+          type: 'error',
+          message: 'Please enter a valid email address'
+        });
+        return;
+      }
+      
+      // Mobile validation (basic)
+      if (formData.mobile.trim().length < 10) {
+        setSubmitStatus({
+          type: 'error',
+          message: 'Please enter a valid mobile number'
+        });
+        return;
+      }
+    }
+    
+    // Clear any error messages and proceed
+    setSubmitStatus({ type: null, message: '' });
     setStep(step + 1);
   };
 
-  const handlePrevious = () => {
+  const handlePrevious = (e?: React.MouseEvent) => {
+    // Prevent any form submission
+    if (e) {
+      e.preventDefault();
+    }
     setStep(step - 1);
+    // Clear any error messages when going back
+    setSubmitStatus({ type: null, message: '' });
+  };
+
+  const validateAllFields = () => {
+    // Check if all required fields from all steps are filled
+    if (!formData.interest) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please select your interest (Step 1)'
+      });
+      setStep(1);
+      return false;
+    }
+    
+    if (!formData.startDate) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please select your start date (Step 1)'
+      });
+      setStep(1);
+      return false;
+    }
+    
+    if (!formData.fullName) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please enter your full name (Step 2)'
+      });
+      setStep(2);
+      return false;
+    }
+    
+    if (!formData.email) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please enter your email address (Step 2)'
+      });
+      setStep(2);
+      return false;
+    }
+    
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please enter a valid email address'
+      });
+      setStep(2);
+      return false;
+    }
+    
+    if (!formData.mobile) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please enter your mobile number (Step 2)'
+      });
+      setStep(2);
+      return false;
+    }
+    
+    // Mobile validation (basic)
+    if (formData.mobile.trim().length < 10) {
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please enter a valid mobile number (at least 10 digits)'
+      });
+      setStep(2);
+      return false;
+    }
+    
+    return true;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate all required fields
-    if (!formData.interest || !formData.startDate || !formData.fullName || !formData.email || !formData.mobile) {
-      setSubmitStatus({
-        type: 'error',
-        message: 'Please fill in all required fields'
-      });
+    // Validate all required fields across all steps
+    if (!validateAllFields()) {
       return;
     }
 
@@ -298,10 +419,10 @@ export default function JoinUs() {
             {step < 3 ? (
               <button
                 type="button"
-                onClick={handleNext}
-                disabled={!isStepValid() || isSubmitting}
+                onClick={(e) => handleNext(e)}
+                disabled={isSubmitting || !isStepValid()}
                 className={`flex-1 group flex items-center justify-between bg-[#AFCFE4] hover:bg-[#9fb8cc] px-6 py-5 rounded-xl font-semibold text-gray-800 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ${
-                  !isStepValid() || isSubmitting ? 'opacity-50 cursor-not-allowed hover:translate-y-0' : ''
+                  isSubmitting || !isStepValid() ? 'opacity-50 cursor-not-allowed hover:translate-y-0' : ''
                 }`}
               >
                 <span className="text-lg">Next</span>
