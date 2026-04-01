@@ -59,8 +59,8 @@ export async function POST(request: NextRequest) {
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'CCA Connect NoReply <send@ccaconnect.co>', // Use Resend's default domain for testing
-      to: [yourEmail || 'leejejune02@gmail.com'], // Fallback for testing
+      from: 'CCA Connect NoReply <connect@cca-manila.edu.ph>', // Use Resend's default domain for testing
+      to: [yourEmail || 'connect@cca-manila.edu.ph'], // Fallback for testing
       replyTo: email,
       subject: `New Join Us Inquiry: ${fullName} is interested in ${interest}`,
       html: `
@@ -69,12 +69,12 @@ export async function POST(request: NextRequest) {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>New Join Us Inquiry from Cravings</title>
+          <title>New Join Us Inquiry from CCA Connect</title>
         </head>
         <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="background: linear-gradient(135deg, #AFCFE4 0%, #9fb8cc 100%); color: #1a2b3c; padding: 30px; border-radius: 12px 12px 0 0; text-align: center;">
             <h1 style="margin: 0; font-size: 24px;">🤝 New Join Us Inquiry!</h1>
-            <p style="margin: 10px 0 0; opacity: 0.9;">Someone wants to connect with Cravings</p>
+            <p style="margin: 10px 0 0; opacity: 0.9;">Someone wants to connect with CCA Connect</p>
           </div>
           
           <div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 12px 12px; border: 1px solid #eee; border-top: none;">
