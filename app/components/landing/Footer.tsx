@@ -46,7 +46,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-[#AFCFE4] py-10 sm:py-12 md:py-14 lg:py-16 px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16">
+    <footer className="w-full bg-[#AFCFE4] py-10 sm:py-12 md:py-14 lg:py-16 px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 font-jost">
       <div className="max-w-8xl w-[95%] sm:w-[93%] md:w-[93%] mx-auto flex flex-col md:flex-row justify-between gap-8 sm:gap-10 md:gap-12 lg:gap-16">
         
         {/* Left Section - responsive spacing */}
@@ -54,7 +54,7 @@ export default function Footer() {
           
           {/* Newsletter Section */}
           <div className="w-full">
-            <h3 className="text-black text-base sm:text-lg font-medium mb-2 sm:mb-3">
+            <h3 className="text-black text-base sm:text-lg font-medium mb-2 sm:mb-3 font-jost">
               Join our Growing Community!
             </h3>
 
@@ -65,14 +65,14 @@ export default function Footer() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Your email address"
-                  className="bg-transparent outline-none text-xs sm:text-sm placeholder:text-black/60 flex-1 py-1"
+                  className="bg-transparent outline-none text-xs sm:text-sm placeholder:text-black/60 flex-1 py-1 font-jost"
                   aria-label="Email address for newsletter"
                   required
                   disabled={status === "loading"}
                 />
                 <button 
                   type="submit"
-                  className="text-black text-lg sm:text-xl ml-2 hover:translate-x-1 transition-transform duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="text-black text-lg sm:text-xl ml-2 hover:translate-x-1 transition-transform duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-jost"
                   aria-label="Subscribe to newsletter"
                   disabled={status === "loading"}
                 >
@@ -83,7 +83,7 @@ export default function Footer() {
             
             {/* Success/Error messages */}
             {status === "success" && (
-              <p className="text-green-800 text-xs mt-2 animate-pulse flex items-center">
+              <p className="text-green-800 text-xs mt-2 animate-pulse flex items-center font-jost">
                 <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
@@ -92,7 +92,7 @@ export default function Footer() {
             )}
             
             {status === "error" && (
-              <p className="text-red-800 text-xs mt-2 flex items-center">
+              <p className="text-red-800 text-xs mt-2 flex items-center font-jost">
                 <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                 </svg>
@@ -100,7 +100,7 @@ export default function Footer() {
               </p>
             )}
             
-            <p className="text-[10px] sm:text-xs text-black/60 mt-1 sm:mt-2">
+            <p className="text-[10px] sm:text-xs text-black/60 mt-1 sm:mt-2 font-jost">
               Subscribe to receive updates and news
             </p>
           </div>
@@ -118,7 +118,7 @@ export default function Footer() {
           </div>
 
           {/* Mobile copyright - visible only on mobile */}
-          <p className="text-xs text-black/60 mt-4 md:hidden">
+          <p className="text-xs text-black/60 mt-4 md:hidden font-jost">
             © {currentYear} CCA Connect. All rights reserved.
           </p>
         </div>
@@ -131,31 +131,33 @@ export default function Footer() {
 
           {/* Contact Links */}
           <div className="flex flex-col gap-1.5 sm:gap-2 text-black">
-            <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base">Connect With Us</h4>
+            <h4 className="font-semibold mb-1 sm:mb-2 text-sm sm:text-base font-jost">
+              Connect With Us
+            </h4>
             
             <a 
               href="mailto:piagtrinidad@cca-manila.edu.ph"
-              className="text-xs sm:text-sm hover:underline hover:text-black/80 transition-colors duration-200 py-1 cursor-pointer"
+              className="text-xs sm:text-sm hover:underline hover:text-black/80 transition-colors duration-200 py-1 cursor-pointer font-jost"
             >
               Email Us
             </a>
             
             <Link 
               href="/JoinUs" 
-              className="text-xs sm:text-sm hover:underline hover:text-black/80 transition-colors duration-200 py-1"
+              className="text-xs sm:text-sm hover:underline hover:text-black/80 transition-colors duration-200 py-1 font-jost"
             >
               Schedule a Call
             </Link>
             
             <Link 
               href="/JoinUs" 
-              className="text-xs sm:text-sm hover:underline hover:text-black/80 transition-colors duration-200 py-1"
+              className="text-xs sm:text-sm hover:underline hover:text-black/80 transition-colors duration-200 py-1 font-jost"
             >
               Become an Expert
             </Link>
 
             {/* Desktop copyright - hidden on mobile */}
-            <p className="hidden md:block text-xs sm:text-sm text-black/60 mt-4 sm:mt-5 md:mt-6">
+            <p className="hidden md:block text-xs sm:text-sm text-black/60 mt-4 sm:mt-5 md:mt-6 font-jost">
               © {currentYear} CCA Connect. All rights reserved.
             </p>
           </div>

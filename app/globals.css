@@ -12,6 +12,7 @@
   --font-mono: var(--font-geist-mono);
   --font-playfair: var(--font-playfair);
   --font-poppins: var(--font-poppins);
+  --font-jost: var(--font-jost);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -33,4 +34,7 @@ body {
 
 .font-poppins {
   font-family: var(--font-poppins);
+}
+.font-jost {
+  font-family: var(--font-jost);
 }

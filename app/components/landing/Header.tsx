@@ -44,7 +44,7 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full flex justify-center fixed top-13 left-1/2 -translate-x-1/2 z-50 px-4">
+    <header className="w-full flex justify-center fixed top-13 left-1/2 -translate-x-1/2 z-50 px-4 font-jost">
       <div className="w-[95%] sm:w-[92%] md:w-[90%] lg:w-[86.5%] max-w-8xl bg-[#0a0a0a] rounded-3xl px-4 sm:px-6 py-2 flex items-center justify-between shadow-lg">
         
         {/* STEP 4: Logo Section */}
@@ -64,7 +64,7 @@ export default function Header() {
                     href={link.href} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="text-white text-sm lg:text-base hover:text-white/80 transition-colors duration-200 px-2 py-1 cursor-pointer"
+                    className="text-white text-sm lg:text-base hover:text-white/80 transition-colors duration-200 px-2 py-1 cursor-pointer font-jost"
                   >
                     {link.label}
                   </a>
@@ -72,14 +72,14 @@ export default function Header() {
                   <a 
                     href={link.href} 
                     onClick={(e) => handleScroll(e, link.href.substring(1))}
-                    className="text-white text-sm lg:text-base hover:text-white/80 transition-colors duration-200 px-2 py-1 cursor-pointer"
+                    className="text-white text-sm lg:text-base hover:text-white/80 transition-colors duration-200 px-2 py-1 cursor-pointer font-jost"
                   >
                     {link.label}
                   </a>
                 ) : (
                   <Link 
                     href={link.href} 
-                    className="text-white text-sm lg:text-base hover:text-white/80 transition-colors duration-200 px-2 py-1"
+                    className="text-white text-sm lg:text-base hover:text-white/80 transition-colors duration-200 px-2 py-1 font-jost"
                   >
                     {link.label}
                   </Link>
@@ -91,7 +91,7 @@ export default function Header() {
           {/* Desktop CTA Button */}
           <Link 
             href="/JoinUs" 
-            className="bg-[#AFCFE4] text-black px-10 py-2 rounded-2xl text-sm lg:text-base font-medium hover:bg-[#b8d4ef] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#A7C8E5] focus:ring-offset-2 focus:ring-offset-black"
+            className="bg-[#AFCFE4] text-black px-10 py-2 rounded-2xl text-sm lg:text-base font-medium hover:bg-[#b8d4ef] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#A7C8E5] focus:ring-offset-2 focus:ring-offset-black font-jost"
           >
             Join Us
           </Link>
@@ -118,7 +118,7 @@ export default function Header() {
                     href={link.href} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="text-white/80 px-4 py-2 hover:text-white transition-colors duration-200" 
+                    className="text-white/80 px-4 py-2 hover:text-white transition-colors duration-200 font-jost" 
                     onClick={toggleMobileMenu}
                   >
                     {link.label}
@@ -128,7 +128,7 @@ export default function Header() {
                     key={link.href} 
                     href={link.href} 
                     onClick={(e) => { handleScroll(e, link.href.substring(1)); toggleMobileMenu(); }}
-                    className="text-white/80 px-4 py-2 hover:text-white transition-colors duration-200"
+                    className="text-white/80 px-4 py-2 hover:text-white transition-colors duration-200 font-jost"
                   >
                     {link.label}
                   </a>
@@ -136,7 +136,7 @@ export default function Header() {
                   <Link 
                     key={link.href} 
                     href={link.href} 
-                    className="text-white/80 px-4 py-2 hover:text-white transition-colors duration-200" 
+                    className="text-white/80 px-4 py-2 hover:text-white transition-colors duration-200 font-jost" 
                     onClick={toggleMobileMenu}
                   >
                     {link.label}
@@ -147,7 +147,7 @@ export default function Header() {
               {/* Mobile CTA Button */}
               <Link 
                 href="/JoinUs" 
-                className="bg-[#A7C8E5] text-black px-4 py-2 rounded-lg font-medium text-center hover:bg-[#b8d4ef] transition-colors duration-200 mt-2" 
+                className="bg-[#A7C8E5] text-black px-4 py-2 rounded-lg font-medium text-center hover:bg-[#b8d4ef] transition-colors duration-200 mt-2 font-jost" 
                 onClick={toggleMobileMenu}
               >
                 Join Us
