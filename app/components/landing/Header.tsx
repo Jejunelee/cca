@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 // STEP 1: Define Types
 // ====================
@@ -25,6 +26,13 @@ const NAVIGATION_LINKS: NavigationLink[] = [
 // STEP 3: Main Header Component
 // ==============================
 export default function Header() {
+  const pathname = usePathname();
+  
+  // Don't show landing header on dashboard routes
+  if (pathname?.startsWith('/dashboard')) {
+    return null;
+  }
+
   // State Management
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);

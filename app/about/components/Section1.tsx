@@ -33,19 +33,15 @@ export default function Section1() {
             </p>
 
             <p>
-              We work closely with hospitality businesses through a holistic
-              approach—looking beyond individual challenges to support the full
-              ecosystem of operations, people, service, and guest experience.
-              By translating industry knowledge & best practices into practical,
-              real-world solutions, we help businesses build stronger, more
-              sustainable foundations.
+              We plan events, training, and do consultancies
             </p>
 
             <p>
-              More than a one-time engagement, CCA Connect is a long-term
-              partner for progress. Through curated bootcamps, hands-on
-              workshops, and purposeful industry connections, we support
-              businesses as they adapt, and evolve.
+            a. Recipe Development & Kitchen training <br />
+b. Restaurant Manager Training & SOP Manuals <br />
+c. Food Technology <br />
+d. Service Training 
+
             </p>
           </div>
         </div>

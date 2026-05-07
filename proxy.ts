@@ -1,0 +1,55 @@
+import { createServerClient } from '@supabase/ssr'
+import { NextResponse, type NextRequest } from 'next/server'
+
+export async function proxy(request: NextRequest) {
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  })
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            request.cookies.set(name, value)
+          )
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
+          })
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          )
+        },
+      },
+    }
+  )
+
+  const { data: { user } } = await supabase.auth.getUser()
+
+  // If user is not authenticated and trying to access protected routes
+  if (!user && request.nextUrl.pathname.startsWith('/dashboard')) {
+    const redirectUrl = new URL('/login', request.url)
+    return NextResponse.redirect(redirectUrl)
+  }
+
+  // If user is authenticated and trying to access login page
+  if (user && request.nextUrl.pathname === '/login') {
+    const redirectUrl = new URL('/dashboard', request.url)
+    return NextResponse.redirect(redirectUrl)
+  }
+
+  return response
+}
+
+export const config = {
+  matcher: ['/dashboard/:path*', '/login'],
+}
