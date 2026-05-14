@@ -21,6 +21,7 @@ const NAVIGATION_LINKS: NavigationLink[] = [
   { href: "/experts", label: "Our Experts" },
   { href: "https://events.ccaconnect.co", label: "Bootcamps", external: true },
   { href: "/training", label: "Training Programs" },
+  { href: "/Venues", label: "Venues" },
 ];
 
 // STEP 3: Main Header Component
